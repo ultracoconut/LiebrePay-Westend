@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liebre Pay</title>
+  
+<!-- link to CSS style sheet -->
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  <div class="title">Liebre Pay</div>
+  <div class="powered">Powered by Polkadot</div>
+  <div class="appversion">PoC Version - Testnet (Westend Asset Hub)</div>
+  <div class="menu">
+    <button class="menu-item selected" id="single-payment">Single Payment</button>
+    <button class="menu-item" id="multi-payment">Multi Payment</button>
+    <button class="menu-item" id="account-info">Account Info</button>
+    <button class="menu-item" id="fiat-ramp">Fiat Ramp</button>
+    <button class="menu-item" id="payment-history">Payment History</button>
+  </div>
+  <div class="divider"></div>
+  <button class="button-connect" id="button-connect">Connect Wallet</button>
+  <div class="container" id="main-container"></div>
+  <ul class="account-list" id="account-list"></ul>
+  <div class="overlay" id="overlay"></div>
+  <div class="transaction-status" id="transaction-status">
+    <p id="status-message">Iniciando transacción...</p>
+  </div>
+  <div class="status-container">
+    <div class="status-group" id="status-AH">
+      <span class="status-group-label">Connection status</span>
+      <div class="status-group-circle disconnected" id="circle-AH"></div>
+    </div>
+  </div>
+  
+  <!-- Polkadot.js bundles -->
+  <script src="polkadotjs_bundles/bundle-polkadot-util.js"></script>
+  <script src="polkadotjs_bundles/bundle-polkadot-util-crypto.js"></script>
+  <script src="polkadotjs_bundles/bundle-polkadot-keyring.js"></script>
+  <script src="polkadotjs_bundles/bundle-polkadot-types.js"></script>
+  <script src="polkadotjs_bundles/bundle-polkadot-api.js"></script>
+  <script src="polkadotjs_bundles/bundle-polkadot-extension-dapp.js"></script>
+  
+  <!-- Index.js -->
+  <script type="module" src="index.js"></script>
+
+  <!-- Papa Parse.js -->
+  <script src="papaparse/papaparse.min.js"></script>
+  
+  <script>
+  </script>
+
+</body>
+</html>
