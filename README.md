@@ -1,9 +1,7 @@
 # Liebre Pay --- PoC VERSION
 
 ## About Liebre Pay
-Liebre Pay is a PoC (proof of concept) project of a financial web application aimed at businesses which operates on the Polkadot's system chain Asset Hub.
-This application provides small and medium-sized enterprises with the ability to make payments to both employees and suppliers in a simple and convenient manner using stablecoins such as USDC and USDT, as well as DOT.
-
+Liebre Pay is a Proof of Concept (PoC) financial web application designed to facilitate blockchain-based business payments. It operates on Polkadot's Asset Hub and aims to simplify stablecoin transactions for small and medium-sized enterprises (SMEs). The platform allows businesses to send payments in DOT, USDC, and USDT individually or in batches using CSV files.
 >[!NOTE] 
 > This application is a Proof of Concept (PoC) and is in an early development phase. It may contain bugs or issues.  
 > To test the application, please use a secure environment with an account that has minimal balances. Avoid using accounts with significant funds.
