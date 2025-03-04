@@ -32,8 +32,8 @@ npm install -g npm@10.8.1
 ```
 ## 8. Clone the repository:
 ```bash
-git clone <repository_url>
-cd <repository_folder>
+git clone https://github.com/ultracoconut/LiebrePay-Westend
+cd LiebrePay-Westend
 ```
 ## 9. Install dependencies:
 ```bash
