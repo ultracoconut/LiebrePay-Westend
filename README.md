@@ -23,7 +23,7 @@ Liebre Pay leverages Polkadot's chain, "Asset Hub", through its API to provide a
 ### Steps to run the project locally
 1. Clone this repository:
    ```bash
-   git clone [repository-url]
+   git clone https://github.com/ultracoconut/LiebrePay-Westend
    ```
 
 2. Install dependencies:
