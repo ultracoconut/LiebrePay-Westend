@@ -1,4 +1,4 @@
-# Liebre Pay --- PoC VERSION
+# Liebre Pay --- PoC VERSION --- testnet (Westend)
 
 ## About Liebre Pay
 Liebre Pay is a Proof of Concept (PoC) financial web application designed to facilitate blockchain-based business payments. It operates on Polkadot's Asset Hub and aims to simplify stablecoin transactions for small and medium-sized enterprises (SMEs). The platform allows businesses to send payments in DOT, USDC, and USDT individually or in batches using CSV files.
@@ -66,7 +66,6 @@ Express: https://github.com/expressjs/express
 Jordan (@ultracoconut)   
 
 ## Contact
-If you have any questions or feedback, feel free to reach out to us at:
+If you have any questions or feedback, feel free to reach out to me at:
 
-Email: [your-email@example.com]  
 Twitter: @ultracoconut
