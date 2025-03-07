@@ -15,7 +15,7 @@ app.use(express.static('public'));
 
 //Handling the root route to serve the HTML file from the 'public' folder
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html'); // HTML page route
+  res.sendFile(__dirname + '/public/index.html');
 });
      
 
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 //Transaction history endpoint
 app.post('/api/transactionHistory', async (req, res) => {
   const address = req.body.address;
-  const page = req.body.page || 0; // Página dinámica, con valor por defecto 0
+  const page = req.body.page || 0; //Dynamic page with default value 0
 
   //Read config.json file
   const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
