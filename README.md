@@ -36,7 +36,7 @@ Liebre Pay leverages Polkadot's chain, "Asset Hub", through its API to provide a
     node server.js
     ```
 
-4. The application should now be running on [http://localhost:3001](http://localhost:3001).
+4. The application should now be running on [http://localhost:3000](http://localhost:3000).
 
  
 ## License
