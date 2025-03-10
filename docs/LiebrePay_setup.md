@@ -40,19 +40,24 @@ cd LiebrePay-Westend
 npm install
 ```
 ## 10. Configure Subscan key:
-To retrieve the payment history from this project, you need to configure a Subscan API key.  
+To retrieve the payment history, you need to configure a Subscan API key.  
 
 - Go to Subscan API and get a free API key:  
 https://pro.subscan.io/pricing  
 
 - Copy the `config.example.json` file in the root of the project and rename it to `config.json`:  
-```bash
-cp config.example.json config.json
-```
-- Open the config.json file and add your Subscan API key:  
-  {  
-  "SUBSCAN_API_KEY": "your_api_key_here"  
-}  
+    ```bash
+    cp config.example.json config.json
+    ```
+- Open the config.json file and add your Subscan API key:
+    ```json  
+    { 
+
+    "SUBSCAN_API_KEY": "your_api_key_here"  
+
+    } 
+    ```
+     
 ## 11.  Install Polkadot.js browser extension:
 - Download and install Polkadot.js Wallet:  
  https://polkadot.js.org/extension/

@@ -16,29 +16,12 @@ Liebre Pay leverages Polkadot's chain, "Asset Hub", through its API to provide a
 
 ## Installation
 
-### Prerequisites
-- Node.js version `16.x` or higher.
-- npm version `7.x` or higher.
+### Standard Installation
+Follow the steps in [docs/LiebrePay_setup.md](docs/LiebrePay_setup.md) to install and run the project normally.
 
-### Steps to run the project locally
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/ultracoconut/LiebrePay-Westend
-   ```
+### Docker Installation
+For installation and setup using Docker, refer to [docs/LiebrePay_setup_docker.md](docs/LiebrePay_setup_docker.md).
 
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
-
-3. Start the application:
-    ```bash
-    node server.js
-    ```
-
-4. The application should now be running on [http://localhost:3000](http://localhost:3000).
-
- 
 ## License
 This project is licensed under the Apache License 2.0. See the LICENSE file for details.
 
