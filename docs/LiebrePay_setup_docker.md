@@ -26,11 +26,24 @@ https://pro.subscan.io/pricing
     }  
     ```
 
-## 3. Build and run the application with Docker:
+## 3.  Install Polkadot.js browser extension:
+- Download and install Polkadot.js Wallet:  
+ https://polkadot.js.org/extension/
+
+- Open the extension and create a new account. 
+
+## 4. Obtain the native currency of Westend and assets:
+- Get some WND (westies) from:  
+https://faucet.polkadot.io/westend
+
+- Get some UCOCO (id:333) and COCOUSD (id:400) by swapping on:  
+https://app.dotacp.mvpworkshop.co/swap
+
+## 5. Build and run the application with Docker:
 Run the following commands **in the root of the project**:
 ```bash 
 docker build -t liebrePay-app .
 docker run -p 3000:3000 liebrePay-app
 ```  
-## 4. Access the application:
+## 6. Access the application:
 The application should now be running on [http://localhost:3000](http://localhost:3000).
