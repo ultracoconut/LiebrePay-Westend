@@ -115,18 +115,20 @@ step: function (row, parser) { //Process row by row
           return;
       }
 
-      //Verify max rows & push row in array results
-      if (rowCount < MAX_ROWS) {
-          results.push(data);
-          rowCount++;
-          totalAmounts[data.Currency] += parseFloat(data.Amount); //Add amount to total amounts
-          WalletsSet.add(data.Beneficiary); //Add wallet to set
-      } else {
+      //Verify max rows
+      if (rowCount === MAX_ROWS) {
           reject(`The .csv file has more than ${MAX_ROWS} payment rows. Please reduce the number of payment rows in your .csv file`);
           abortTriggered = true; //Active flag
           parser.abort();
           return;
       }
+
+      //Push row in array results
+          results.push(data);
+          rowCount++;
+          totalAmounts[data.Currency] += parseFloat(data.Amount); //Add amount to total amounts
+          WalletsSet.add(data.Beneficiary); //Add wallet to set
+     
 
     }catch(error){
       reject(error);
@@ -199,9 +201,9 @@ complete: async function () {
 
       - Total number of payments: ${rowCount}
       - Total Multi payment amount: 
-        ${totalAmounts['WND']} WND
-        ${totalAmounts['UCOCO']} UCOCO 
-        ${totalAmounts['COCOUSD']} COCOUSD
+        ${totalAmounts['WND'].toFixed(4)} WND
+        ${totalAmounts['UCOCO'].toFixed(4)} UCOCO 
+        ${totalAmounts['COCOUSD'].toFixed(4)} COCOUSD
       - Estimated Multi Payment fee: ${(feeBatch).toFixed(4)} WND
       
       Do you want to continue?`;
