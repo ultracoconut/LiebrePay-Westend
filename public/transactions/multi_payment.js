@@ -77,57 +77,57 @@ step: function (row, parser) { //Process row by row
           );
       //If no error, valid address
       } catch (error) {
-        reject(`Invalid beneficiary address: "${data.Beneficiary}" at row ${rowCount + 2}`);
-        abortTriggered = true; //Active flag
-        parser.abort();
-        return;
-        }
+         reject(`Invalid beneficiary address: "${data.Beneficiary}" at row ${rowCount + 2}`);
+         abortTriggered = true; //Active flag
+         parser.abort();
+         return;
+      }
 
       //Verify beneficiary address is not the same as sender address
       if(data.Beneficiary === account){
-        reject(`Beneficiary address is the same as the sender address: "${data.Beneficiary}" at row ${rowCount + 2}`);
-        abortTriggered = true; //Active flag
-        parser.abort();
-        return;
+         reject(`Beneficiary address is the same as the sender address: "${data.Beneficiary}" at row ${rowCount + 2}`);
+         abortTriggered = true; //Active flag
+         parser.abort();
+         return;
       }
 
       //Verify beneficiary address duplicate
       if (WalletsSet.has(data.Beneficiary)) {
-        reject(`Duplicate beneficiary address: "${data.Beneficiary}" at row ${rowCount + 2}`);
-        abortTriggered = true;
-        parser.abort();
-        return;
+         reject(`Duplicate beneficiary address: "${data.Beneficiary}" at row ${rowCount + 2}`);
+         abortTriggered = true;
+         parser.abort();
+         return;
       }
 
       //Verify correct data in currency
       if (data.Currency !== "WND" && data.Currency !== "UCOCO" && data.Currency !== "COCOUSD") {
-          reject(`Unknown currency: "${data.Currency}" at row ${rowCount + 2}`);
-          abortTriggered = true; //Active flag
-          parser.abort();
-          return;
+         reject(`Unknown currency: "${data.Currency}" at row ${rowCount + 2}`);
+         abortTriggered = true; //Active flag
+         parser.abort();
+         return;
       }
 
       //Verify amount is a valid number
       if (isNaN(data.Amount) || Number(data.Amount) <= 0) {
-          reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
-          abortTriggered = true; //Active flag
-          parser.abort();
-          return;
+         reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
+         abortTriggered = true; //Active flag
+         parser.abort();
+         return;
       }
 
       //Verify max rows
       if (rowCount === MAX_ROWS) {
-          reject(`The .csv file has more than ${MAX_ROWS} payment rows. Please reduce the number of payment rows in your .csv file`);
-          abortTriggered = true; //Active flag
-          parser.abort();
-          return;
+         reject(`The .csv file has more than ${MAX_ROWS} payment rows. Please reduce the number of payment rows in your .csv file`);
+         abortTriggered = true; //Active flag
+         parser.abort();
+         return;
       }
 
       //Push row in array results
-          results.push(data);
-          rowCount++;
-          totalAmounts[data.Currency] += parseFloat(data.Amount); //Add amount to total amounts
-          WalletsSet.add(data.Beneficiary); //Add wallet to set
+      results.push(data);
+      rowCount++;
+      totalAmounts[data.Currency] += parseFloat(data.Amount); //Add amount to total amounts
+      WalletsSet.add(data.Beneficiary); //Add wallet to set
      
 
     }catch(error){
