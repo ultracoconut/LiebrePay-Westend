@@ -49,7 +49,7 @@ Express: https://github.com/expressjs/express.
 License: MIT License.  
 Owner: Fedor Indutny.  
 Repository: https://github.com/indutny/bn.js.  
-BN.js is used for handling large numbers in the application.
+bn.js is used for handling large numbers in the application.
 
 
 
