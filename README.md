@@ -31,24 +31,32 @@ Additionally, this project uses third-party libraries with their own licenses. P
 Liebre Pay integrates third-party libraries and tools. Below are the details of their respective licenses:
 
 **Papa Parse** 
-License: MIT License  
-Owner: Matthew Holt  
-Repository: https://github.com/mholt/PapaParse  
+License: MIT License.  
+Owner: Matthew Holt.  
+Repository: https://github.com/mholt/PapaParse.  
 Papa Parse is included in the project and located in the public/ folder. Its full license can be found in the LICENSE file.
 
 **Polkadot.js**
-License: Creative Commons Zero v1.0 Universal (CC0 1.0)  
-Repository: https://github.com/polkadot-js  
+License: Creative Commons Zero v1.0 Universal (CC0 1.0).  
+Repository: https://github.com/polkadot-js.  
 
 **Node.js and Express**  
 Liebre Pay is built with Node.js and Express, which are open-source tools licensed under the MIT License. Their respective licenses are included in their official repositories:  
-Node.js: https://github.com/nodejs/node  
-Express: https://github.com/expressjs/express
+Node.js: https://github.com/nodejs/node. 
+Express: https://github.com/expressjs/express.
+
+**bn.js**   
+License: MIT License.  
+Owner: Fedor Indutny.  
+Repository: https://github.com/indutny/bn.js.  
+BN.js is used for handling large numbers in the application.
+
+
 
 ## Author
-Jordan (@ultracoconut)   
+Jordan (@ultracoconut).   
 
 ## Contact
 If you have any questions or feedback, feel free to reach out to me at:
 
-Twitter: @ultracoconut
+Twitter: @ultracoconut.
