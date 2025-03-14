@@ -24,9 +24,6 @@ export async function singlePaymentWND(account, destination, value) {
    }
   
     try {
-
-      const a= new BN(5);
-
           //DOM elements
           const overlay = document.getElementById('overlay');
           const statusBox = document.getElementById('transaction-status');
