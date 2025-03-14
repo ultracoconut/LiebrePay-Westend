@@ -1,3 +1,5 @@
+const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
+
 import { DEC_PREC, MIN_BAL_FREE } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
@@ -22,6 +24,8 @@ export async function singlePaymentWND(account, destination, value) {
    }
   
     try {
+
+      const a= new BN(5);
 
           //DOM elements
           const overlay = document.getElementById('overlay');

@@ -1,3 +1,5 @@
+const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
+
 import { MIN_BAL_FREE } from '../constants.js';
 import { balances } from '../subscribe_balances.js';
 

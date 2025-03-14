@@ -3,6 +3,7 @@
 
 const { decodeAddress, encodeAddress } = polkadotKeyring;
 const { hexToU8a, isHex } = polkadotUtil;
+const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
 
 import { DEC_PREC, MIN_BAL_FREE, ASSETS_ID, MAX_ROWS } from '../constants.js'
 import { balances } from '../subscribe_balances.js';

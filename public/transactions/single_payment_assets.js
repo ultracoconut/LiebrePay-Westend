@@ -1,3 +1,5 @@
+const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
+
 import { DEC_PREC, MIN_BAL_FREE, ASSETS_ID } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
