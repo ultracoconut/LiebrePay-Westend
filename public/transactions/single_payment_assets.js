@@ -1,6 +1,5 @@
-const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
 
-import { DEC_PREC, MIN_BAL_FREE, ASSETS_ID } from '../constants.js'
+import { MIN_BAL_FREE, ASSETS_ID } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
 import { injector } from '../connect_wallet.js';
@@ -30,13 +29,12 @@ export async function singlePaymentAssets (currency, account, destination, value
       const statusMessage = document.getElementById('status-message');
       
       //Retrieve transaction fee info
-      let extrinsic = apiAH.tx.assets.transferKeepAlive(ASSETS_ID[currency], destination, value*DEC_PREC); 
+      let extrinsic = apiAH.tx.assets.transferKeepAlive(ASSETS_ID[currency], destination, value); 
       let {partialFee:txFee} = await extrinsic.paymentInfo(account);
-      let transactionFee = txFee/DEC_PREC;
   
       //Confirmation message
       let userConfirmed = confirm(`Please, confirm payment of ${value} ${currency} to beneficiary ${destination}
-      Estimated fee: ${transactionFee.toFixed(4)} WND`);
+      Estimated fee: ${txFee} WND`);
     
       //User cancel transaction
       if (!userConfirmed) {
@@ -45,13 +43,15 @@ export async function singlePaymentAssets (currency, account, destination, value
           }
       
       //Verify sufficient WND balance for fees
-      if (balances['WND'] < transactionFee*2){
+      if (balances['WND'].lt(txFee.muln(2))){
         reject("Insufficient WND for fees");
         return;
       }
       
       //Verify asset balance for transaction
-      if (balances[currency] < value + MIN_BAL_FREE[currency]){
+      const totalRequired = value.add(MIN_BAL_FREE[currency]);
+
+      if (balances[currency].lt(totalRequired)){
         reject("Insufficient balance");
         return;
       }
