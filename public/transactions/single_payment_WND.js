@@ -1,4 +1,3 @@
-const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
 
 import { DEC_PREC, MIN_BAL_FREE } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
@@ -30,13 +29,12 @@ export async function singlePaymentWND(account, destination, value) {
           const statusMessage = document.getElementById('status-message');
 
           //Retrieve transaction fee info
-          const extrinsic = apiAH.tx.balances.transferKeepAlive(destination, value * DEC_PREC);
+          const extrinsic = apiAH.tx.balances.transferKeepAlive(destination, value);
           const {partialFee:txFee} = await extrinsic.paymentInfo(account);
-          const transactionFee = txFee/DEC_PREC;
   
           //Confirmation message
           const userConfirmed = confirm(`Please, confirm payment of ${value} WND to beneficiary ${destination}.
-          Estimated fee: ${transactionFee.toFixed(4)} WND`);
+          Estimated fee: ${txFee} WND`);
         
           //User cancel transaction
           if (!userConfirmed) {
@@ -45,7 +43,9 @@ export async function singlePaymentWND(account, destination, value) {
               }
 
           //Verify WND balance for transaction
-          if (balances['WND'] < value + MIN_BAL_FREE['WND'] + transactionFee*2){
+          const totalRequired = value.add(MIN_BAL_FREE['WND']).add(txFee.muln(2));
+
+          if (balances['WND'].lt(totalRequired)){
             reject("Insufficient balance");
             return;
           }
