@@ -1,3 +1,5 @@
+const { BN } = polkadotUtil;
+
 import { balances } from '../subscribe_balances.js';
 import { account } from '../connect_wallet.js'
 
@@ -9,7 +11,7 @@ export function updateBalanceDisplay() {
       return;
     }
 
-    let balance = 0;
+    let balance;
     const currency = document.getElementById('currency').value;
   
     switch (currency) {
@@ -23,7 +25,8 @@ export function updateBalanceDisplay() {
         balance = balances["COCOUSD"];
         break;
     }
-    balanceDisplay.textContent = account ? `Balance free: ${balance.toFixed(4)} ${currency}` : `Balance free: 0.0000 ${currency}`;
+    //Display formatted balances
+    balanceDisplay.textContent = account ? `Balance free: ${parseFloat(balance.toString() / 10**12).toFixed(4) } ${currency}` : `Balance free: 0.0000 ${currency}`;
     }
 
   
