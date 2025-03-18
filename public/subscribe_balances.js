@@ -1,16 +1,22 @@
+const { BN_ZERO } = polkadotUtil;
 
-import { ASSETS_ID, DEC_PREC } from './constants.js'
+import { ASSETS_ID } from './constants.js'
 import { apiAH, initializeApi } from './init_apis.js';
 import { account } from './connect_wallet.js';
 import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
 import { updateAccountInfo } from './update_ui/update_account_info.js';
 
-export let balances = { WND: 0, WNDRes:0, UCOCO: 0, COCOUSD: 0 };
+export let balances = { 
+  WND: BN_ZERO,
+  WNDRes: BN_ZERO,
+  UCOCO: BN_ZERO,
+  COCOUSD: BN_ZERO
+};
 
-let unsubWND = 0;
-let unsubWNDRes = 0;
-let unsubUCOCO = 0;
-let unsubCOCOUSD = 0;
+let unsubWND = null;
+let unsubWNDRes = null;
+let unsubUCOCO = null;
+let unsubCOCOUSD = null;
 
 export function subscribeBalanceChanges() {
   return new Promise(async (resolve, reject) => {
@@ -26,35 +32,33 @@ export function subscribeBalanceChanges() {
       console.log('Subscribing to balance changes...');
 
       unsubWND = await apiAH.query.system.account(account.address, ({ data: balance }) => {
-        const newBalance = balance.free / DEC_PREC;
-        if (balances["WND"] !== newBalance) {
-          balances["WND"] = newBalance;
+        if (!balances['WND'].eq(balance.free)) {
+          balances['WND'] = balance.free;
           updateBalanceDisplay();
           updateAccountInfo(); 
         }
       });
 
       unsubWNDRes = await apiAH.query.system.account(account.address, ({ data: balance }) => {
-        const newBalance = balance.reserved / DEC_PREC;
-        if (balances["WNDRes"] !== newBalance) {
-          balances["WNDRes"] = newBalance;
+        if (!balances['WNDRes'].eq(balance.reserved)) {
+          balances['WNDRes'] = balance.reserved;
           updateAccountInfo(); 
         }
       });
 
       unsubUCOCO = await apiAH.query.assets.account(ASSETS_ID['UCOCO'], account.address, (result) => {
-        const newBalance = result.isSome ? result.unwrap().balance / DEC_PREC : 0;
-        if (balances["UCOCO"] !== newBalance) {
-          balances["UCOCO"] = newBalance;
+        const newBalance = result.isSome ? result.unwrap().balance : BN_ZERO;
+        if (!balances['UCOCO'].eq(newBalance)) {
+          balances['UCOCO'] = newBalance;
           updateBalanceDisplay();
           updateAccountInfo(); 
         }
       });
 
       unsubCOCOUSD = await apiAH.query.assets.account(ASSETS_ID['COCOUSD'], account.address, (result) => {
-        const newBalance = result.isSome ? result.unwrap().balance / DEC_PREC : 0;
-        if (balances["COCOUSD"] !== newBalance) {
-          balances["COCOUSD"] = newBalance;
+        const newBalance = result.isSome ? result.unwrap().balance : BN_ZERO;
+        if (!balances['COCOUSD'].eq(newBalance)) {
+          balances['COCOUSD'] = newBalance;
           updateBalanceDisplay();
           updateAccountInfo(); 
         }
@@ -80,7 +84,13 @@ export function subscribeBalanceChanges() {
         if(unsubWNDRes) unsubWNDRes();
         if(unsubUCOCO) unsubUCOCO();
         if(unsubCOCOUSD) unsubCOCOUSD();
-        balances = { WND: 0, WNDRes:0, UCOCO: 0, COCOUSD: 0 };
+
+        balances = {
+          WND: BN_ZERO,
+          WNDRes: BN_ZERO,
+          UCOCO: BN_ZERO,
+          COCOUSD: BN_ZERO
+    };
 
         console.log('Unsubscribed from balance changes');
 
