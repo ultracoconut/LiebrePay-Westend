@@ -1,9 +1,22 @@
-const { BN, BN_ZERO, BN_ONE } = polkadotUtil;
+const { BN } = polkadotUtil;
  
- export const URL_PROVIDER = 'wss://westend-asset-hub-rpc.polkadot.io' //Westend AH provider
- export const DEC_PREC = 1e12 //Westend decimal precision 10^12
- export const MIN_BAL_FREE = { WND: 0.1, UCOCO: 0.1, COCOUSD: 0.1 }; //Minimum balance free in LiebrePay
- export const ASSETS_ID = { UCOCO:333, COCOUSD:400 }//Asset IDS
- export const MAX_ROWS = 100 //Max payment rows in CSV file
+ //Westend AH provider
+ export const URL_PROVIDER = 'wss://westend-asset-hub-rpc.polkadot.io' 
+ 
+ //Westend decimal precision bn 10^12
+ export const DEC_PREC = new BN(10).pow(new BN(12)) 
+ 
+ //Minimum balance free in LiebrePay bn
+ export const MIN_BAL_FREE = { 
+    WND: DEC_PREC.div(new BN(10)), // 0.1 * 10^12 = 100000000000
+    UCOCO: DEC_PREC.div(new BN(10)),
+    COCOUSD: DEC_PREC.div(new BN(10)),
+  }; 
+
+//Asset IDS
+ export const ASSETS_ID = { UCOCO:333, COCOUSD:400 }
+ 
+ //Max payment rows in CSV file
+ export const MAX_ROWS = 100 
  
  
