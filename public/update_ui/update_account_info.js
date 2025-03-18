@@ -9,16 +9,17 @@ export  function updateAccountInfo(){
    return;
    }
 
+   //DOM elements
    const balanceFreeWND = document.getElementById('balance-free-WND-info');
    const balanceResWND = document.getElementById('balance-reserved-WND-info');
    const balanceUCOCO = document.getElementById('balance-UCOCO-info');
    const balanceCOCOUSD = document.getElementById('balance-COCOUSD-info');
 
-   
+   //Display formatted balances
    address.textContent = account ? account.address : 'Not selected account';
-   balanceFreeWND.textContent = account ? `Free: ${balances['WND'].toFixed(4)}` : 'Not available';
-   balanceResWND.textContent = account ? `Reserved: ${balances['WNDRes'].toFixed(4)}` : 'Not available';
-   balanceUCOCO.textContent = account ? balances['UCOCO'].toFixed(4) : 'Not available';
-   balanceCOCOUSD.textContent = account ? balances['COCOUSD'].toFixed(4) : 'Not available';
+   balanceFreeWND.textContent = account ? `Free: ${parseFloat(balances['WND'].toString() / 10 ** 12).toFixed(4)}` : 'Not available';
+   balanceResWND.textContent = account ? `Reserved: ${parseFloat(balances['WNDRes'].toString() / 10 ** 12).toFixed(4)}` : 'Not available';
+   balanceUCOCO.textContent = account ? parseFloat(balances['UCOCO'].toString() / 10 ** 12).toFixed(4) : 'Not available';
+   balanceCOCOUSD.textContent = account ? parseFloat(balances['COCOUSD'].toString() / 10 ** 12).toFixed(4) : 'Not available';
 
 }
