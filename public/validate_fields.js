@@ -1,9 +1,9 @@
-const { BN, BN_ZERO } = polkadotUtil;
+const { BN_ZERO } = polkadotUtil;
         
 import { account } from './connect_wallet.js';
-import { DEC_PREC } from './constants.js';
 import { validateAccount } from './utils/account_verification.js';
 import { validateAmount } from './utils/amount_verification.js';
+import { formatConversionIn } from './utils/format_conversion_input.js';
    
 
 //Function to validate both Fields
@@ -24,7 +24,7 @@ export function validateFields(){
   let sendButton = document.getElementById('button-single-payment'); 
 
   //bn amount
-  const amountBn = amount && !isNaN(amount) ? new BN(amount).mul(DEC_PREC) : BN_ZERO;
+  const amountBn = amount && !isNaN(amount) ? formatConversionIn(amount, 12) : BN_ZERO;
 
   //Set validation to false at start
   let isValidBeneficiary = false; 
