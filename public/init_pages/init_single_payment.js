@@ -1,11 +1,9 @@
-const { BN } = polkadotUtil;
-        
 import { singlePaymentWND } from '../transactions/single_payment_WND.js';
 import { singlePaymentAssets } from '../transactions/single_payment_assets.js';
 import { updateBalanceDisplay } from '../update_ui/update_balance_display.js';
 import { account } from '../connect_wallet.js';
 import { validateFields } from '../validate_fields.js';
-import { DEC_PREC } from '../constants.js'
+import { formatConversionIn } from '../utils/format_conversion_input.js';
  
 
 export function initSinglePayment() {
@@ -28,9 +26,9 @@ amountInput.addEventListener('input', validateFields);
 
 //Event listener send button
 sendButton.addEventListener('click', async() => {
-  const amount = new BN(amountInput.value.replace(',', '.')).mul(DEC_PREC);
+  const amount = formatConversionIn(amountInput.value.trim().replace(',', '.'), 12);
   const currency = currencySelect.value;
-  const beneficiary = beneficiaryInput.value;
+  const beneficiary = beneficiaryInput.value.trim();
 
   //Disable send button until result
   sendButton.disabled = true;
