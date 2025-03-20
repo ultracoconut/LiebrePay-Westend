@@ -1,8 +1,8 @@
-
 import { DEC_PREC, MIN_BAL_FREE } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
 import { injector } from '../connect_wallet.js';
+import { formatConversionOut } from '../utils/format_conversion_output.js';
 
 
 export async function singlePaymentWND(account, destination, value) { 
@@ -33,8 +33,8 @@ export async function singlePaymentWND(account, destination, value) {
           const {partialFee:txFee} = await extrinsic.paymentInfo(account);
   
           //Confirmation message
-          const userConfirmed = confirm(`Please, confirm payment of ${value} WND to beneficiary ${destination}.
-          Estimated fee: ${txFee} WND`);
+          const userConfirmed = confirm(`Please, confirm payment of ${formatConversionOut(value, 12)} WND to beneficiary ${destination}.
+          Estimated fee: ${formatConversionOut(txFee, 12)} WND`);
         
           //User cancel transaction
           if (!userConfirmed) {
