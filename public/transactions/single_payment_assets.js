@@ -3,6 +3,7 @@ import { MIN_BAL_FREE, ASSETS_ID } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
 import { injector } from '../connect_wallet.js';
+import { formatConversionOut } from '../utils/format_conversion_output.js';
 
 
 export async function singlePaymentAssets (currency, account, destination, value) {
@@ -33,8 +34,8 @@ export async function singlePaymentAssets (currency, account, destination, value
       let {partialFee:txFee} = await extrinsic.paymentInfo(account);
   
       //Confirmation message
-      let userConfirmed = confirm(`Please, confirm payment of ${value} ${currency} to beneficiary ${destination}
-      Estimated fee: ${txFee} WND`);
+      let userConfirmed = confirm(`Please, confirm payment of ${formatConversionOut (value, 12)} ${currency} to beneficiary ${destination}
+      Estimated fee: ${formatConversionOut(value, 12)} WND`);
     
       //User cancel transaction
       if (!userConfirmed) {
