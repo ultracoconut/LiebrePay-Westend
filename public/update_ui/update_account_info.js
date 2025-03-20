@@ -1,5 +1,6 @@
 import { balances } from '../subscribe_balances.js';
 import { account } from '../connect_wallet.js';
+import { formatConversionOut } from '../utils/format_conversion_output.js';
 
 export  function updateAccountInfo(){
    
@@ -17,9 +18,9 @@ export  function updateAccountInfo(){
 
    //Display formatted balances
    address.textContent = account ? account.address : 'Not selected account';
-   balanceFreeWND.textContent = account ? `Free: ${parseFloat(balances['WND'].toString() / 10 ** 12).toFixed(4)}` : 'Not available';
-   balanceResWND.textContent = account ? `Reserved: ${parseFloat(balances['WNDRes'].toString() / 10 ** 12).toFixed(4)}` : 'Not available';
-   balanceUCOCO.textContent = account ? parseFloat(balances['UCOCO'].toString() / 10 ** 12).toFixed(4) : 'Not available';
-   balanceCOCOUSD.textContent = account ? parseFloat(balances['COCOUSD'].toString() / 10 ** 12).toFixed(4) : 'Not available';
+   balanceFreeWND.textContent = account ? `Free: ${formatConversionOut(balances['WND'], 12)}` : 'Not available';
+   balanceResWND.textContent = account ? `Reserved: ${formatConversionOut(balances['WNDRes'], 12)}` : 'Not available';
+   balanceUCOCO.textContent = account ? formatConversionOut(balances['UCOCO'], 12) : 'Not available';
+   balanceCOCOUSD.textContent = account ? formatConversionOut(balances['COCOUSD'], 12) : 'Not available';
 
 }
