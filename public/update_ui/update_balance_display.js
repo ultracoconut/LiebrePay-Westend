@@ -1,7 +1,6 @@
-const { BN } = polkadotUtil;
-
 import { balances } from '../subscribe_balances.js';
-import { account } from '../connect_wallet.js'
+import { account } from '../connect_wallet.js';
+import { formatConversionOut } from '../utils/format_conversion_output.js';
 
 //UPDATE BALANCE DISPLAY FUNCTION
 export function updateBalanceDisplay() {
@@ -26,7 +25,7 @@ export function updateBalanceDisplay() {
         break;
     }
     //Display formatted balances
-    balanceDisplay.textContent = account ? `Balance free: ${parseFloat(balance.toString() / 10**12).toFixed(4) } ${currency}` : `Balance free: 0.0000 ${currency}`;
+    balanceDisplay.textContent = account ? `Balance free: ${formatConversionOut(balance, 12) } ${currency}` : `Balance free: 0.0000 ${currency}`;
     }
 
   
