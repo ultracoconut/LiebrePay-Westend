@@ -9,6 +9,8 @@
    import { balances } from '../subscribe_balances.js';
    import { apiAH, initializeApi } from '../init_apis.js';
    import { injector } from '../connect_wallet.js';
+   import { formatConversionIn } from '../utils/format_conversion_input.js';
+   import { formatConversionOut } from '../utils/format_conversion_output.js';
    
    
    export async function multiPayment(account, file) {
@@ -171,32 +173,32 @@
          console.log('Constructing batch...')
    
           let beneficiary;
-          let amount_csv;
+          let amountCSV;
           let currency;
           
           for (let i = 0; i < results.length; i++) {
             beneficiary = results[i].Beneficiary;
-            amount_csv = results[i].Amount;
+            amountCSV = results[i].Amount;
             currency = results[i].Currency;
    
             switch (currency) {
              case "WND":
-                 tx = apiAH.tx.balances.transferKeepAlive(beneficiary, new BN(amount_csv).mul(DEC_PREC));
+                 tx = apiAH.tx.balances.transferKeepAlive(beneficiary, formatConversionIn(amountCSV, 12));
                  group.push(tx);
                  break;
              case "UCOCO":
-                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['UCOCO'], beneficiary, new BN(amount_csv).mul(DEC_PREC));
+                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['UCOCO'], beneficiary, formatConversionIn(amountCSV, 12)  );
                  group.push(tx);
                  break;
              case "COCOUSD":
-                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['COCOUSD'], beneficiary, new BN(amount_csv).mul(DEC_PREC));
+                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['COCOUSD'], beneficiary, formatConversionIn(amountCSV, 12));
                  group.push(tx);
                  break;
             }
          }        
    
-         //Batch constructed.
-         console.log('Batch constructed.')
+         //Batch constructed
+         console.log('Batch constructed')
    
          //Show batch in console
          console.log(`Transaction batch: ${group}`);
@@ -217,10 +219,10 @@
    
          - Total number of payments: ${rowCount}
          - Total Multi payment amount: 
-           ${totalAmounts['WND']} WND
-           ${totalAmounts['UCOCO']} UCOCO 
-           ${totalAmounts['COCOUSD']} COCOUSD
-         - Estimated Multi Payment fee: ${(feeBatch)} WND
+           ${formatConversionOut(totalAmounts['WND'], 12)} WND
+           ${formatConversionOut(totalAmounts['UCOCO'], 12)} UCOCO 
+           ${formatConversionOut(totalAmounts['COCOUSD'], 12)} COCOUSD
+         - Estimated Multi Payment fee: ${formatConversionOut(feeBatch, 12)} WND
          
          Do you want to continue?`;
          
