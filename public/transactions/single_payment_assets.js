@@ -35,7 +35,7 @@ export async function singlePaymentAssets (currency, account, destination, value
   
       //Confirmation message
       let userConfirmed = confirm(`Please, confirm payment of ${formatConversionOut (value, 12)} ${currency} to beneficiary ${destination}
-      Estimated fee: ${formatConversionOut(value, 12)} WND`);
+      Estimated fee: ${formatConversionOut(txFee, 12)} WND`);
     
       //User cancel transaction
       if (!userConfirmed) {
