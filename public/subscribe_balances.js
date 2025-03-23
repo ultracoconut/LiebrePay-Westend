@@ -14,7 +14,6 @@ export let balances = {
 };
 
 let unsubWND = null;
-let unsubWNDRes = null;
 let unsubUCOCO = null;
 let unsubCOCOUSD = null;
 
@@ -35,14 +34,11 @@ export function subscribeBalanceChanges() {
         if (!balances['WND'].eq(balance.free)) {
           balances['WND'] = balance.free;
           updateBalanceDisplay();
-          updateAccountInfo(); 
+          updateAccountInfo();
         }
-      });
-
-      unsubWNDRes = await apiAH.query.system.account(account.address, ({ data: balance }) => {
         if (!balances['WNDRes'].eq(balance.reserved)) {
           balances['WNDRes'] = balance.reserved;
-          updateAccountInfo(); 
+          updateAccountInfo();
         }
       });
 
@@ -81,7 +77,6 @@ export function subscribeBalanceChanges() {
         console.log('Unsubscribing from balance changes...');
 
         if(unsubWND) unsubWND();
-        if(unsubWNDRes) unsubWNDRes();
         if(unsubUCOCO) unsubUCOCO();
         if(unsubCOCOUSD) unsubCOCOUSD();
 

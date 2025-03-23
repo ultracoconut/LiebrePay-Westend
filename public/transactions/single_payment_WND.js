@@ -1,4 +1,4 @@
-import { DEC_PREC, MIN_BAL_FREE } from '../constants.js'
+import { MIN_BAL_FREE } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
 import { injector } from '../connect_wallet.js';
