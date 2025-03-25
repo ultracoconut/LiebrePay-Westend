@@ -26,7 +26,7 @@ amountInput.addEventListener('input', validateFields);
 
 //Event listener send button
 sendButton.addEventListener('click', async() => {
-  const amount = formatConversionIn(amountInput.value.trim().replace(',', '.'), 12);
+  const amount = formatConversionIn(amountInput.value, 12);
   const currency = currencySelect.value;
   const beneficiary = beneficiaryInput.value.trim();
 

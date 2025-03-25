@@ -113,11 +113,21 @@
          }
    
          //Verify amount is a valid number
-         if (isNaN(data.Amount) || new BN(data.Amount).lte(BN_ZERO)) {
-            reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
-            abortTriggered = true; //Active flag
-            parser.abort();
-            return;
+         try {
+          const formattedAmount = formatConversionIn(data.Amount, 12);
+      
+          if (formattedAmount.lte(BN_ZERO)) { 
+              reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
+              abortTriggered = true; 
+              parser.abort();
+              return;
+          }
+      
+          } catch (error) {
+          reject(`Error processing amount: "${data.Amount}" at row ${rowCount + 2} - ${error.message}`);
+          abortTriggered = true;
+          parser.abort();
+          return;
          }
    
          //Verify max rows
@@ -187,7 +197,7 @@
                  group.push(tx);
                  break;
              case "UCOCO":
-                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['UCOCO'], beneficiary, formatConversionIn(amountCSV, 12)  );
+                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['UCOCO'], beneficiary, formatConversionIn(amountCSV, 12));
                  group.push(tx);
                  break;
              case "COCOUSD":

@@ -2,13 +2,17 @@ const { BN } = polkadotUtil;
 
 export function formatConversionIn(amount, decPrec) {
   
-  const amountStr = amount.toString(); //Convert to string for safety
-
-  if (!amountStr.includes(".")) {
-    return new BN(amountStr).mul(new BN(10).pow(new BN(decPrec)));
+  if (typeof amount !== "string") {
+  amount = amount.toString(); //Convert to string for safety
   }
 
-  const [whole, fraction = ""] = amountStr.split(".");
+  amount = amount.trim().replace(",", "."); //Normalize decimal separator to a dot
+  
+  if (!amount.includes(".")) {
+    return new BN(amount).mul(new BN(10).pow(new BN(decPrec)));
+  }
+
+  const [whole, fraction = ""] = amount.split(".");
   const fractionLength = fraction.length;
 
   if (fractionLength > decPrec) {
