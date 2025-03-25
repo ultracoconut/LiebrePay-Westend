@@ -113,8 +113,9 @@
          }
    
          //Verify amount is a valid number
+         let formattedAmount;
          try {
-          const formattedAmount = formatConversionIn(data.Amount, 12);
+          formattedAmount = formatConversionIn(data.Amount, 12);
       
           if (formattedAmount.lte(BN_ZERO)) { 
               reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
