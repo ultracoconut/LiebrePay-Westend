@@ -141,7 +141,7 @@
          //Push row in array results
          results.push(data);
          rowCount++;
-         totalAmounts[data.Currency] = totalAmounts[data.Currency].add(new BN(data.Amount).mul(DEC_PREC));//Add amount to total amounts
+         totalAmounts[data.Currency] = totalAmounts[data.Currency].add(formattedAmount);
          WalletsSet.add(data.Beneficiary); //Add wallet to set
         
    
