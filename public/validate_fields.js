@@ -3,9 +3,7 @@ const { BN_ZERO } = polkadotUtil;
 import { account } from './connect_wallet.js';
 import { validateAccount } from './utils/account_verification.js';
 import { validateAmount } from './utils/amount_verification.js';
-import { formatConversionIn } from './utils/format_conversion_input.js';
    
-
 //Function to validate both Fields
 export function validateFields(){
   
@@ -17,14 +15,11 @@ export function validateFields(){
   
   //DOM elements
   const beneficiary = document.getElementById('destination-wallet').value.trim();
-  const amount = document.getElementById('amount').value.trim();
+  const amount = document.getElementById('amount').value;
   const currency = document.getElementById('currency').value;
   const beneficiaryInput = document.getElementById('destination-wallet');
   const amountInput = document.getElementById('amount');
   let sendButton = document.getElementById('button-single-payment'); 
-
-  //bn amount
-  const amountBn = amount && !isNaN(amount) ? formatConversionIn(amount, 12) : BN_ZERO;
 
   //Set validation to false at start
   let isValidBeneficiary = false; 
@@ -58,7 +53,7 @@ export function validateFields(){
 
   //Validate amount only if it's not empty
   if (amount) {
-   isValidAmount = validateAmount(amountBn, currency);
+   isValidAmount = validateAmount(amount, currency);
    amountInput.classList.add(isValidAmount ? 'valid' : 'invalid');
  }
 
