@@ -1,8 +1,6 @@
 /*This file leverages PapaParse for parsing CSV files containing payment instructions.
    See the full license in the LICENSE file at the root of this project and also at the end of this file.*/
 
-   const { decodeAddress, encodeAddress } = polkadotKeyring;
-   const { hexToU8a, isHex } = polkadotUtil;
    const { BN_ZERO } = polkadotUtil;
    
    import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS } from '../constants.js'
@@ -12,6 +10,7 @@
    import { formatConversionIn } from '../utils/format_conversion_input.js';
    import { formatConversionOut } from '../utils/format_conversion_output.js';
    import { validateAmount } from '../utils/amount_verification.js';
+   import { validateAccount } from '../utils/account_verification.js';
 
    
    
@@ -76,14 +75,7 @@
          }
    
          //Verify valid beneficiary address
-         try {
-             encodeAddress(
-                 isHex(data.Beneficiary)
-                     ? hexToU8a(data.Beneficiary)
-                     : decodeAddress(data.Beneficiary)
-             );
-         //If no error, valid address
-         } catch (error) {
+         if (!validateAccount(data.Beneficiary)) {
             reject(`Invalid beneficiary address: "${data.Beneficiary}" at row ${rowCount + 2}`);
             abortTriggered = true; //Active flag
             parser.abort();
@@ -91,7 +83,7 @@
          }
    
          //Verify beneficiary address is not the same as sender address
-         if(data.Beneficiary === account){
+         if (data.Beneficiary === account){
             reject(`Beneficiary address is the same as the sender address: "${data.Beneficiary}" at row ${rowCount + 2}`);
             abortTriggered = true; //Active flag
             parser.abort();
