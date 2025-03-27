@@ -3,14 +3,16 @@
 
    const { decodeAddress, encodeAddress } = polkadotKeyring;
    const { hexToU8a, isHex } = polkadotUtil;
-   const { BN, BN_ZERO } = polkadotUtil;
+   const { BN_ZERO } = polkadotUtil;
    
-   import { DEC_PREC, MIN_BAL_FREE, ASSETS_ID, MAX_ROWS } from '../constants.js'
+   import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS } from '../constants.js'
    import { balances } from '../subscribe_balances.js';
    import { apiAH, initializeApi } from '../init_apis.js';
    import { injector } from '../connect_wallet.js';
    import { formatConversionIn } from '../utils/format_conversion_input.js';
    import { formatConversionOut } from '../utils/format_conversion_output.js';
+   import { validateAmount } from '../utils/amount_verification.js';
+
    
    
    export async function multiPayment(account, file) {
@@ -112,25 +114,14 @@
             return;
          }
    
-         //Verify amount is a valid number
-         let formattedAmount;
-         try {
-          formattedAmount = formatConversionIn(data.Amount, 12);
-      
-          if (formattedAmount.lte(BN_ZERO)) { 
-              reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
-              abortTriggered = true; 
-              parser.abort();
-              return;
+        //Verify amount is a valid number and check if it is within available balance
+         if (!validateAmount(data.Amount, data.Currency)) {
+            reject(`Invalid amount data: "${data.Amount}" at row ${rowCount + 2}`);
+            abortTriggered = true;
+            parser.abort();
+            return;
           }
-      
-          } catch (error) {
-          reject(`Error processing amount: "${data.Amount}" at row ${rowCount + 2} - ${error.message}`);
-          abortTriggered = true;
-          parser.abort();
-          return;
-         }
-   
+            
          //Verify max rows
          if (rowCount === MAX_ROWS) {
             reject(`The .csv file has more than ${MAX_ROWS} payment rows. Please reduce the number of payment rows in your .csv file`);
@@ -142,6 +133,7 @@
          //Push row in array results
          results.push(data);
          rowCount++;
+         let formattedAmount = formatConversionIn(data.Amount, 12);
          totalAmounts[data.Currency] = totalAmounts[data.Currency].add(formattedAmount);
          WalletsSet.add(data.Beneficiary); //Add wallet to set
         
