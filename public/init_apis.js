@@ -2,7 +2,7 @@ import { URL_PROVIDER } from './constants.js';
 const { WsProvider, ApiPromise } = polkadotApi;
 
 export let apiAH;
-export let isApiInitialized = false //Flag to verify api initialization
+export let isApiInitialized = false;//Flag to verify api initialization
  
  //INITIALIZE API FUNCTION
   export async function initializeApi() {
