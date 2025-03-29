@@ -2,12 +2,20 @@ const { BN } = polkadotUtil;
 
 export function formatConversionIn(amount, decPrec) {
   
+try {
+
+  //Convert to string for safety
   if (typeof amount !== "string") {
-  amount = amount.toString(); //Convert to string for safety
+  amount = amount.toString(); 
   }
 
-  amount = amount.trim().replace(",", "."); //Normalize decimal separator to a dot
+  //Check if amount is a valid number with optional decimal part (using either dot or comma as separator)
+  if (!/^\d+([.,]\d+)?$/.test(amount)) { 
+    throw new Error(`Invalid number format: "${amount}"`);
+  }
   
+  amount = amount.trim().replace(",", "."); //Normalize decimal separator to a dot
+ 
   if (!amount.includes(".")) {
     return new BN(amount).mul(new BN(10).pow(new BN(decPrec)));
   }
@@ -23,4 +31,9 @@ export function formatConversionIn(amount, decPrec) {
   const normalizedAmount = whole + fraction.padEnd(decPrec, "0");
 
   return new BN(normalizedAmount);
+
+} catch (error) {
+  throw error
+}
+
 };
