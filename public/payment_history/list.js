@@ -1,13 +1,9 @@
 import { account } from '../connect_wallet.js';
 
-export function paymentList(transfers, listContainer, messageElement) {
+export function paymentList(transfers, listContainer) {
+    
     // Clean previous list
     listContainer.innerHTML = '';
-
-    if (transfers === null) {
-        messageElement.textContent = 'No payment history available for this wallet.';
-        return;
-    }
 
     // Generate the list
     transfers.forEach((transfer) => {
@@ -39,7 +35,5 @@ export function paymentList(transfers, listContainer, messageElement) {
         listContainer.appendChild(li);
     });
 
-    // Limpiar mensaje al finalizar
-    messageElement.textContent = '';
+    
 }
-
