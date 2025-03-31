@@ -18,10 +18,20 @@ export async function updateHistory(page) {
         message.textContent = 'Loading...';
 
         const transfers = await fetchTransfers(account.address, page);
-        paymentList(transfers, listContainer, message);
+        
+        if (!transfers || transfers.length === 0) {
+            message.textContent = 'No payment history available for this wallet.';
+            listContainer.innerHTML = '';
+            return;
+        }
+
+        paymentList(transfers, listContainer);
+
+        //Limpiar mensaje al finalizar
+        message.textContent = '';
+
         
     } catch (error) {
         message.textContent = `An error occurred while fetching the payment history: ${error.message}`;
     }
 }
-
