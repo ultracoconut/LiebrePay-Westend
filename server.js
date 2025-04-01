@@ -58,7 +58,7 @@ app.post('/api/transactionHistory', async (req, res) => {
     
     const errorResponse = {
       message: error.message || 'Error retrieving transaction history',
-      code: error.code || 'UNKNOWN_ERROR',
+      code: error.cause?.code || 'UNKNOWN_ERROR',
     };
 
     res.status(500).json(errorResponse);
