@@ -1,14 +1,13 @@
 //Import Express
 const express = require('express');
-//Import bodyParser
-const bodyParser = require('body-parser');
+
 //Import fs
 const fs = require('fs');
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 //Serve static files from the 'public' folder
 app.use(express.static('public'));
@@ -19,11 +18,9 @@ app.get('/', (req, res) => {
 });
      
 
-
 //Transaction history endpoint
 app.post('/api/transactionHistory', async (req, res) => {
-  const address = req.body.address;
-  const page = req.body.page || 0; //Dynamic page with default value 0
+  const { address, page = 0 } = req.body;
 
   //Read config.json file
   const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -31,25 +28,25 @@ app.post('/api/transactionHistory', async (req, res) => {
     if (!apiKey) {
         return res.status(400).json({ error: 'API key not configured. Please set SUBSCAN_API_KEY in the config.json file.' });
     }
-
-  const myHeaders = new Headers();
-  myHeaders.append("X-API-Key", apiKey); //API Key from config.json
-  myHeaders.append("Content-Type", "application/json");
-
-  const raw = JSON.stringify({
-    "address": address,
-    "page": page,
-    "row": 20,
-  });
-
+    
+  
+  //Configure request options
   const requestOptions = {
     method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
+    headers: {
+      "X-API-Key": apiKey,
+      "Content-Type": "application/json"
+      },
+    body: JSON.stringify({
+       address, 
+       page, 
+       row: 20 
+      }),
+    redirect: 'follow' 
+    };
 
-  try {
+
+   try {
     const response = await fetch("https://assethub-westend.api.subscan.io/api/v2/scan/transfers", requestOptions);
     const result = await response.json();
     res.json(result); //Send result JSON to the frontend
