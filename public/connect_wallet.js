@@ -11,8 +11,6 @@ const { web3Enable, web3Accounts, web3FromAddress } = polkadotExtensionDapp;
 export let account = null;
 export let injector = null;
 
-let polkadotJsAccounts = [];
-
 
 //CONNECT WALLET FUNCTION
   export async function connectWallet() {
@@ -20,7 +18,7 @@ let polkadotJsAccounts = [];
    try {
   
     //There is an account connected
-    if(account !== null){//Disconnect the walllet
+    if(account){//Disconnect the walllet
         
       //Unsubscribe Balance changes 
       unsubscribeBalanceChanges();
@@ -69,7 +67,7 @@ let polkadotJsAccounts = [];
       }
 
       //Filter Polkadotjs accounts
-      polkadotJsAccounts = accounts.filter(acc => acc.meta.source === 'polkadot-js');
+      let polkadotJsAccounts = accounts.filter(acc => acc.meta.source === 'polkadot-js');
 
       displayAccountList(polkadotJsAccounts);
 
@@ -81,7 +79,7 @@ let polkadotJsAccounts = [];
   }
     
     
-  //DISPLAY ACCOUNT LIST FUNCTION
+    //DISPLAY ACCOUNT LIST FUNCTION
     function displayAccountList(filteredAccounts) {
 
     try {  
@@ -96,7 +94,7 @@ let polkadotJsAccounts = [];
       li.textContent = `${acc.meta.name} (${acc.address})`;
 
       //Add dynamic click event
-      li.addEventListener('click', () => selectAccount(index));
+      li.addEventListener('click', () => selectAccount(index, filteredAccounts));
 
       //Add the <li> to the list
       accountList.appendChild(li);
@@ -114,10 +112,10 @@ let polkadotJsAccounts = [];
 
      
     //SELECT ACCOUNT FUNCTION
-    async function selectAccount(index) {
+    async function selectAccount(index, filteredAccounts) {
 
     try {
-      account = polkadotJsAccounts[index];
+      account = filteredAccounts[index];
       injector = await web3FromAddress(account.address);
       console.log('Account Connected');
       console.log(`Got injector for account ${account.address}`);
