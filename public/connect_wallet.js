@@ -6,7 +6,7 @@ import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
 import { updateMultiPayment } from './update_ui/update_multi_payment.js';
 import { updateAccountInfo } from './update_ui/update_account_info.js';
 
-const { web3Enable, web3Accounts, web3FromAddress } = polkadotExtensionDapp;
+
 
 export let account = null;
 export let injector = null;
@@ -41,6 +41,8 @@ export let injector = null;
 
       //There is no account connected
       console.log('Connecting wallet...');
+
+      const { web3Enable, web3Accounts } = polkadotExtensionDapp;
 
       //Call for extensions 
       const extensions = await web3Enable('Liebre Pay');
@@ -115,6 +117,9 @@ export let injector = null;
     async function selectAccount(index, filteredAccounts) {
 
     try {
+
+      const { web3FromAddress } = polkadotExtensionDapp;
+      
       account = filteredAccounts[index];
       injector = await web3FromAddress(account.address);
       console.log('Account Connected');
