@@ -1,8 +1,8 @@
-const { BN } = polkadotUtil;
-
 export function formatConversionOut(amountBN, decPrec) {
 
  try{
+  
+  const { BN } = polkadotUtil;
   
   //Validate amountBN is a BN object 
   if (!(amountBN instanceof BN)) {
@@ -24,3 +24,4 @@ export function formatConversionOut(amountBN, decPrec) {
   throw error; 
 }
 };
+
