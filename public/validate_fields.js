@@ -1,5 +1,3 @@
-const { BN_ZERO } = polkadotUtil;
-        
 import { account } from './connect_wallet.js';
 import { validateAccount } from './utils/account_verification.js';
 import { validateAmount } from './utils/amount_verification.js';
