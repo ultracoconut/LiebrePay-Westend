@@ -1,9 +1,9 @@
-const { decodeAddress, encodeAddress } = polkadotKeyring;
-const { hexToU8a, isHex } = polkadotUtil;
-
 //Function to validate account
 export function validateAccount(account) {
     try {
+     const { decodeAddress, encodeAddress } = polkadotKeyring;
+     const { hexToU8a, isHex } = polkadotUtil;
+     
      encodeAddress(
         isHex(account)
           ? hexToU8a(account)
