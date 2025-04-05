@@ -1,5 +1,3 @@
-const { BN_ZERO } = polkadotUtil;
-
 import { ASSETS_ID } from './constants.js'
 import { apiAH, initializeApi } from './init_apis.js';
 import { account } from './connect_wallet.js';
@@ -7,10 +5,10 @@ import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
 import { updateAccountInfo } from './update_ui/update_account_info.js';
 
 export let balances = { 
-  WND: BN_ZERO,
-  WNDRes: BN_ZERO,
-  UCOCO: BN_ZERO,
-  COCOUSD: BN_ZERO
+  WND: null,
+  WNDRes: null,
+  UCOCO: null,
+  COCOUSD: null
 };
 
 let unsubWND = null;
@@ -21,6 +19,7 @@ export function subscribeBalanceChanges() {
   return new Promise(async (resolve, reject) => {
     
     try {
+      
       //Verify that the API have been created
       if (!apiAH) {
         await initializeApi();
@@ -28,7 +27,16 @@ export function subscribeBalanceChanges() {
 
       //Wait for API to be ready
       await apiAH.isReady;
+
       console.log('Subscribing to balance changes...');
+      const { BN_ZERO } = polkadotUtil;
+      
+      balances = { 
+        WND: BN_ZERO,
+        WNDRes: BN_ZERO,
+        UCOCO: BN_ZERO,
+        COCOUSD: BN_ZERO
+      };
 
       unsubWND = await apiAH.query.system.account(account.address, ({ data: balance }) => {
         if (!balances['WND'].eq(balance.free)) {
@@ -74,7 +82,9 @@ export function subscribeBalanceChanges() {
       //UNSUBSCRIBE BALANCE CHANGES FUNCTION
       export function unsubscribeBalanceChanges() {
        try {
+
         console.log('Unsubscribing from balance changes...');
+        const { BN_ZERO } = polkadotUtil;
 
         if(unsubWND) unsubWND();
         if(unsubUCOCO) unsubUCOCO();
