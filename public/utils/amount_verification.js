@@ -1,5 +1,3 @@
-const { BN, BN_ZERO } = polkadotUtil;
-
 import { MIN_BAL_FREE } from '../constants.js';
 import { balances } from '../subscribe_balances.js';
 import { formatConversionIn } from './format_conversion_input.js';
@@ -7,9 +5,9 @@ import { formatConversionIn } from './format_conversion_input.js';
 //Function to Validate Amount
 export function validateAmount(amount, currency){
 
-  let amountBn;
-
   try{
+    const { BN, BN_ZERO } = polkadotUtil;
+    let amountBn;
     
     amountBn = formatConversionIn(amount, 12);
     
