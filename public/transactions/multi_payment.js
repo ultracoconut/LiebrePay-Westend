@@ -1,8 +1,6 @@
 /*This file leverages PapaParse for parsing CSV files containing payment instructions.
    See the full license in the LICENSE file at the root of this project and also at the end of this file.*/
 
-   const { BN_ZERO } = polkadotUtil;
-   
    import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS } from '../constants.js'
    import { balances } from '../subscribe_balances.js';
    import { apiAH, initializeApi } from '../init_apis.js';
@@ -12,7 +10,6 @@
    import { validateAmount } from '../utils/amount_verification.js';
    import { validateAccount } from '../utils/account_verification.js';
 
-   
    
    export async function multiPayment(account, file) {
      return new Promise(async (resolve, reject) => {
@@ -30,13 +27,13 @@
         reject(error);
       }
    
-   
        //DOM elements
        const overlay = document.getElementById('overlay');
        const statusBox = document.getElementById('transaction-status');
        const statusMessage = document.getElementById('status-message');
-   
-       //Variables
+
+       //Const & Variables
+       const { BN_ZERO } = polkadotUtil;
        let results = [];
        let group = [];
        let rowCount = 0;
@@ -49,8 +46,8 @@
    
        let WalletsSet = new Set();
        let abortTriggered = false; //Flag to check if abort() was called
-   
      
+
        //Read the CSV file from the user's input
        console.log("Reading .csv file...");
        if (file) {
@@ -134,13 +131,12 @@
          reject(error);
        }
    
-   
      },
    
    complete: async function () {
    
        try{ 
-   
+
          if (abortTriggered) {
          //Exit if parsing was aborted
          return;
@@ -154,8 +150,9 @@
          }
          
          //Verify each asset balance for transaction batch
+         const { BN_ZERO } = polkadotUtil;
          for (let curr in totalAmounts) {
-    
+
            const totalRequired = totalAmounts[curr].add(MIN_BAL_FREE[curr]);
    
            if (totalAmounts[curr].gt(BN_ZERO) && balances[curr].lt(totalRequired)){
