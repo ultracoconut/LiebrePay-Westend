@@ -1,9 +1,9 @@
-const { BN } = polkadotUtil;
-
 export function formatConversionIn(amount, decPrec) {
   
 try {
 
+  const { BN } = polkadotUtil;
+  
   //Convert to string for safety
   if (typeof amount !== "string") {
   amount = amount.toString(); 
