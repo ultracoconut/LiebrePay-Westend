@@ -26,7 +26,7 @@
   <ul class="account-list" id="account-list"></ul>
   <div class="overlay" id="overlay"></div>
   <div class="transaction-status" id="transaction-status">
-    <p id="status-message">Iniciando transacción...</p>
+    <p id="status-message"></p>
   </div>
   <div class="status-container">
     <div class="status-group" id="status-AH">
@@ -36,21 +36,18 @@
   </div>
   
   <!-- Polkadot.js bundles -->
-  <script src="polkadotjs_bundles/bundle-polkadot-util.js"></script>
-  <script src="polkadotjs_bundles/bundle-polkadot-util-crypto.js"></script>
-  <script src="polkadotjs_bundles/bundle-polkadot-keyring.js"></script>
-  <script src="polkadotjs_bundles/bundle-polkadot-types.js"></script>
-  <script src="polkadotjs_bundles/bundle-polkadot-api.js"></script>
-  <script src="polkadotjs_bundles/bundle-polkadot-extension-dapp.js"></script>
+  <script defer src="polkadotjs_bundles/bundle-polkadot-util.js"></script>
+  <script defer src="polkadotjs_bundles/bundle-polkadot-util-crypto.js"></script>
+  <script defer src="polkadotjs_bundles/bundle-polkadot-keyring.js"></script>
+  <script defer src="polkadotjs_bundles/bundle-polkadot-types.js"></script>
+  <script defer src="polkadotjs_bundles/bundle-polkadot-api.js"></script>
+  <script defer src="polkadotjs_bundles/bundle-polkadot-extension-dapp.js"></script>
+
+  <!-- Papa Parse.js -->
+  <script defer src="papaparse/papaparse.min.js"></script>
   
   <!-- Index.js -->
   <script type="module" src="index.js"></script>
-
-  <!-- Papa Parse.js -->
-  <script src="papaparse/papaparse.min.js"></script>
-  
-  <script>
-  </script>
 
 </body>
 </html>
