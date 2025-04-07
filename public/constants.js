@@ -1,25 +1,32 @@
-const { BN } = polkadotUtil;
- 
- //Westend AH provider
- export const URL_PROVIDER = 'wss://westend-asset-hub-rpc.polkadot.io';
- 
- //Westend decimal precision bn 10^12
- const DEC_PREC = new BN(10).pow(new BN(12));
- 
- //Minimum balance free in LiebrePay bn
- export const MIN_BAL_FREE = { 
-    WND: DEC_PREC.div(new BN(10)), // 0.1 * 10^12 = 100000000000
-    UCOCO: DEC_PREC.div(new BN(10)),
-    COCOUSD: DEC_PREC.div(new BN(10)),
-  }; 
-
-//Asset IDS
- export const ASSETS_ID = { 
-  UCOCO:333, 
-  COCOUSD:400 
+export const ASSETS_ID = {
+  UCOCO: 333,
+  COCOUSD: 400,
 };
- 
- //Max payment rows in CSV file
- export const MAX_ROWS = 100;
- 
- 
+
+export const MAX_ROWS = 100;
+export const URL_PROVIDER = 'wss://westend-asset-hub-rpc.polkadot.io';
+export let MIN_BAL_FREE = null;
+
+//Initializes constants requiring BN from polkadotUtil
+export function initializeConstants() {
+
+try{
+
+if (!polkadotUtil?.BN) {
+  throw new Error("polkadotUtil or BN is not available");
+}
+
+const BN = polkadotUtil.BN;
+const DEC_PREC = new BN(10).pow(new BN(12));
+MIN_BAL_FREE = { 
+  WND: DEC_PREC.div(new BN(10)),
+  UCOCO: DEC_PREC.div(new BN(10)),
+  COCOUSD: DEC_PREC.div(new BN(10)),
+};
+return true;
+
+}catch(error){
+console.error("Error initializing constants:", error);
+return false;
+}
+}
