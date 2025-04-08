@@ -3,6 +3,7 @@ import { connectWallet } from './connect_wallet.js';
 import { pageHandlers } from './page_handlers.js';
 import { updateAuxConnect } from './update_ui/update_aux_connect.js';
 import { initializeConstants } from './constants.js';
+import { checkDependencies } from './check_dependencies.js';
 
   
   //LOAD EXTERNAL HTML TEMPLATE FUNCTION
@@ -68,14 +69,22 @@ import { initializeConstants } from './constants.js';
    //Event listener for button-connect
    document.querySelector('.button-connect').addEventListener('click', connectWallet);
 
+   //Waits for the window to fully load, then initializes constants and the API.
    window.addEventListener('load', async () => {
      try {
+
+       //Check dependencies
+       if (!checkDependencies()) {
+         throw new Error('Missing external libraries');
+       }
+
        // Initialize constants, and if successful, initialize the API
        const constantsInitialized = initializeConstants();
        if (!constantsInitialized) {
          throw new Error('Failed to initialize constants');
        }
-         await initializeApi();    
+       
+       await initializeApi();    
        
      } catch (error) {
        console.error("Error during initialization:", error);
