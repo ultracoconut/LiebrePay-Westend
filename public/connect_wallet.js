@@ -1,7 +1,6 @@
 import { updateHistory } from './payment_history/update_history.js';
 import { subscribeBalanceChanges, unsubscribeBalanceChanges } from './subscribe_balances.js';
 import { validateFields } from './validate_fields.js';
-import { updateAuxConnect } from './update_ui/update_aux_connect.js';
 import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
 import { updateMultiPayment } from './update_ui/update_multi_payment.js';
 import { updateAccountInfo } from './update_ui/update_account_info.js';
@@ -9,7 +8,7 @@ import { getAvailableExtensions } from './utils/get_available_extensions.js';
 import { getAvailableAccounts } from './utils/get_available_accounts.js';
 import { getInjector } from './utils/get_injector.js';
 import { formatAccountDisplay } from './utils/format_account_display.js';
-import { getConnectButton } from './utils/dom_elements.js';
+import { updateConnectionUI } from './update_ui/update_connection_UI.js';
 
 export let account = null;
 export let injector = null;
@@ -19,21 +18,15 @@ export async function connectWallet() {
 
   try { 
 
-    const btn = getConnectButton();
-
     //There is an account connected
     if (account) { 
-      btn.disabled = true;
-      btn.textContent = 'Disconnecting Wallet...';
+      updateConnectionUI('disconnecting');
       unsubscribeBalanceChanges();
       account = null;
       injector = null;
-      console.log('Wallet disconnected');
-
+      
       //Update UI
-      btn.textContent = 'Connect Wallet';
-      btn.disabled = false;
-      updateAuxConnect();
+      updateConnectionUI('disconnected');
       updateBalanceDisplay();
       updateHistory(0);
       updateAccountInfo();
@@ -43,10 +36,7 @@ export async function connectWallet() {
     }
 
     //There is no account connected
-    btn.disabled = true;
-    btn.offsetHeight;//Force repaint
-    btn.textContent = 'Connecting Wallet...';
-    console.log('Connecting wallet...');
+    updateConnectionUI('connecting');
 
     //Call for extensions 
     const extensions = await getAvailableExtensions();
@@ -146,14 +136,7 @@ async function selectAccount(index, accounts) {
     await subscribeBalanceChanges();
     
     //Update UI
-    const btn = getConnectButton();
-    btn.textContent = formatAccountDisplay(account);
-    btn.appendChild(document.createElement('br'));
-    btn.appendChild(document.createTextNode('Click to Disconnect'));
-    btn.disabled = false;
-    console.log(`Account Connected: ${account.address}`);
-
-    updateAuxConnect();
+    updateConnectionUI('connected');
     updateHistory(0);
     validateFields();
     updateMultiPayment();
