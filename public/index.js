@@ -1,9 +1,9 @@
 import { initializeApi } from './init_apis.js';
-import { connectWallet } from './connect_wallet.js';
+import { connectWallet, account } from './connect_wallet.js';
 import { pageHandlers } from './page_handlers.js';
-import { updateAuxConnect } from './update_ui/update_aux_connect.js';
 import { initializeConstants } from './constants.js';
 import { checkDependencies } from './check_dependencies.js';
+import { updateConnectionUI } from './update_ui/update_connection_UI.js';
 
   
   //LOAD EXTERNAL HTML TEMPLATE FUNCTION
@@ -47,7 +47,7 @@ import { checkDependencies } from './check_dependencies.js';
   }
   
   //Visibility and pointer events based on wallet connection state
-  updateAuxConnect();
+  updateConnectionUI(account ? 'connected' : 'disconnected');
 
     }
 
