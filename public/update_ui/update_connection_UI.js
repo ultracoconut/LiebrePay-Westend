@@ -2,6 +2,8 @@ import { account } from '../connect_wallet.js';
 import { formatAccountDisplay } from '../utils/format_account_display.js';
 
 export function updateConnectionUI(state) {
+
+  try {
   const mainButton = document.getElementById('button-connect');
   const auxButtons = document.querySelectorAll('.aux-connect');
   const sendButton = document.getElementById('button-single-payment');
@@ -68,5 +70,9 @@ export function updateConnectionUI(state) {
       sendButton.style.pointerEvents = 'none';
     }
   }
-}
 
+ } catch (error) {
+    throw new Error(`Failed to update connection UI: ${error.message || error}`);
+    }
+
+}
