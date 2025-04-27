@@ -140,6 +140,7 @@ async function selectAccount(index, accounts) {
     updateHistory(0);
     validateFields();
     updateMultiPayment();
+    updateAccountInfo();
 
   } catch (error) {
     console.error('Error selecting account:', error);
