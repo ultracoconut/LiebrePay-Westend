@@ -1,0 +1,95 @@
+.input-group {
+      margin-bottom: 10px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: grey; 
+      font-size: 14px; 
+      text-align: left;
+    }
+    .input-group input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-family: Arial, sans-serif;
+    }
+    .input-group input.valid {
+      border: 1px solid green;
+      box-shadow: 0 0 10px green;
+    }
+    .input-group input.invalid {
+      border: 1px solid red;
+    }
+    .balance-display {
+      color: grey;
+      font-size: 14px;
+      text-align: left;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      height: 20px; 
+    }
+    .select-group {
+      margin-top: 10px;
+      position: relative;
+      display: flex;
+      justify-content: center
+    }
+    .select-group label {
+      margin-bottom: 5px;
+      color: grey; 
+      font-size: 14px;
+      margin-right: 5px;      
+    }
+    .sp-button-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0; 
+    }
+    .button-send {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      pointer-events: none; 
+    }
+    .button-send:disabled {
+      background-color: #6c757d; 
+      color: white;
+      cursor: not-allowed; 
+      opacity: 0.7; 
+    }
+    .button-send:hover {
+      background-color: #0056b3;
+    }
+    .aux-connect {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      position:absolute;
+      top: 50%; 
+      left: 50%; 
+      transform: translate(-50%, -50%); 
+      display: auto; 
+    }
+    .aux-connect:disabled {
+      background-color: #6c757d; 
+      color: white;
+      font-style: italic;
+      opacity: 0.7; 
+    }
+    .aux-connect:hover {
+      background-color: #0056b3;
+    }
+

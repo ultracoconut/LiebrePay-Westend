@@ -1,0 +1,44 @@
+.transfer-list {
+      font-size: 15px;
+      color: grey;
+      text-align: left;
+      list-style-type: none; 
+      padding: 15px; 
+      margin: 0 auto; 
+      width: fit-content; 
+    }
+    .transfer-item {
+      margin-bottom: 10px; 
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 5px 5px;
+    }
+    .page-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .page-button:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .page-button:hover {
+      background-color: #0056b3;
+    }
+    .page-display {
+      font-size: 14px;
+      color: grey;
+    }
+
