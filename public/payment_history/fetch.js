@@ -17,7 +17,7 @@ export async function fetchTransfers(address, page) {
             throw new Error(data.error?.message || 'Invalid response from server.');
         }
         console.log(data); 
-        return data.data.transfers; //Only return the transfers from data object
+        return data.data;
   
     } catch (error) {
         console.error('API Error:', error);
