@@ -1,8 +1,8 @@
-import { updateHistory } from '../payment_history/update_history.js';
+import { paymentHistoryController } from '../payment_history/payment_history_controller.js';
 
 export function initPaymentHistory(){
 
-    updateHistory(0);
+    paymentHistoryController();
 }
 
 
