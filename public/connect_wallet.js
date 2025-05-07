@@ -1,4 +1,4 @@
-import { updateHistory } from './payment_history/update_history.js';
+import { paymentHistoryController } from './payment_history/payment_history_controller.js';
 import { subscribeBalanceChanges, unsubscribeBalanceChanges } from './subscribe_balances.js';
 import { validateFields } from './validate_fields.js';
 import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
@@ -28,7 +28,7 @@ export async function connectWallet() {
       //Update UI
       updateConnectionUI('disconnected');
       updateBalanceDisplay();
-      updateHistory(0);
+      paymentHistoryController();
       updateAccountInfo();
       updateMultiPayment();
       validateFields();
@@ -137,7 +137,7 @@ async function selectAccount(index, accounts) {
     
     //Update UI
     updateConnectionUI('connected');
-    updateHistory(0);
+    paymentHistoryController();
     validateFields();
     updateMultiPayment();
     updateAccountInfo();
