@@ -1,4 +1,6 @@
 import { updateHistory } from './update_history.js';
+import { updateControls } from '../update_ui/update_controls.js';
+import { paginationState } from './pagination_state.js';
 
 export async function paymentHistoryController() {  
 
@@ -10,9 +12,10 @@ export async function paymentHistoryController() {
 
     if(!container) return;
 
-    let currentPage = 0;
-    let totalPages = 1;
-
+    //Clear pagination state
+    paginationState.currentPage = 0;
+    paginationState.totalPages = 1;
+    
     //Clean page display
     pageDisplay.textContent = '';
 
@@ -31,51 +34,13 @@ export async function paymentHistoryController() {
      updateControls('none');
      return;
     } 
-    totalPages = Math.ceil(transferCount / 20);
+
+    paginationState.totalPages = Math.ceil(transferCount / 20);
     updateControls();
-    setupButtons();
 
    } catch (error) {
       console.error('Error in Payment history controller:', error);
       pageDisplay.textContent = 'Failed to load payment history.';
-    }
-
-    function setupButtons() {
-     
-        prevBtn.addEventListener('click', async () => {
-          try {
-
-            if (currentPage > 0) {
-                currentPage--;
-                await updateHistory(currentPage);
-                updateControls();
-            }
-
-           } catch (error) {
-            console.error('Error loading previous page:', error);
-             }
-         });
-
-
-        nextBtn.addEventListener('click', async () => {
-          try {
-            
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-                await updateHistory(currentPage);
-                updateControls();
-            }
-           } catch (error) {
-            console.error('Error loading next page:', error);
-             }
-        });
-    }
-
-    function updateControls(state = 'flex') {
-        pageDisplay.textContent = `${currentPage + 1} of ${totalPages}`;
-        prevBtn.disabled = currentPage === 0;
-        nextBtn.disabled = currentPage >= totalPages - 1;
-        container.style.display = state;
- 
-    }
+    }  
+    
 }
