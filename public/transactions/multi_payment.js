@@ -34,6 +34,8 @@
 
        //Const & Variables
        const { BN_ZERO } = polkadotUtil;
+       const EXPECTED_KEYS = ['Beneficiary', 'Amount', 'Currency'];
+       let validKeys = false;
        let results = [];
        let group = [];
        let rowCount = 0;
@@ -63,6 +65,21 @@
      
          const data = row.data;
    
+         //Verify correct header in the first step
+         if (!validKeys) {
+         
+         const keysInData = Object.keys(data).filter(key => key.trim() !== ''); 
+         const haveExactKeys = EXPECTED_KEYS.length === keysInData.length && EXPECTED_KEYS.sort().join(',') === keysInData.sort().join(',');
+
+         if (!haveExactKeys) {
+          reject(`Invalid .csv file. The columns in the .csv file must be: ${EXPECTED_KEYS.join(', ')}`);
+          abortTriggered = true; //Active flag
+          parser.abort();
+          return;
+         }
+         validKeys = true;
+        }
+          
          //Verify missing data in rows
          if (!data.Beneficiary || !data.Amount || !data.Currency) {
             reject(`Row has missing data at row: ${rowCount + 2}`);
