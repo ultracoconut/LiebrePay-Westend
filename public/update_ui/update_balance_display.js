@@ -25,7 +25,7 @@ export function updateBalanceDisplay() {
         break;
     }
     //Display formatted balances
-    balanceDisplay.textContent = account ? `Balance free: ${formatConversionOut(balance, 12) } ${currency}` : `Balance free: 0.0000 ${currency}`;
+    balanceDisplay.textContent = account ? `Balance free: ${formatConversionOut(balance, 12) } ${currency}` : `Balance free: Not available`;
     }
 
   
