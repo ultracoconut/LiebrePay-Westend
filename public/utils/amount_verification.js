@@ -1,4 +1,4 @@
-import { MIN_BAL_FREE } from '../constants.js';
+import { MIN_BAL_FREE, MIN_PAY_AMOUNT } from '../constants.js';
 import { balances } from '../subscribe_balances.js';
 import { formatConversionIn } from './format_conversion_input.js';
 
@@ -6,13 +6,13 @@ import { formatConversionIn } from './format_conversion_input.js';
 export function validateAmount(amount, currency){
 
   try{
-    const { BN, BN_ZERO } = polkadotUtil;
+    const { BN } = polkadotUtil;
     let amountBn;
     
     amountBn = formatConversionIn(amount, 12);
     
-    // Verify amount is a valid BN and greater than 0
-    if (!BN.isBN(amountBn) || amountBn.lte(BN_ZERO)) { 
+    // Verify amount is a valid BN and greater than MIN_PAY_AMOUNT
+    if (!BN.isBN(amountBn) || amountBn.lt(MIN_PAY_AMOUNT[currency])) { 
       return false; 
     } 
 
