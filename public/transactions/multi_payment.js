@@ -34,7 +34,14 @@
 
        //Const & Variables
        const { BN_ZERO } = polkadotUtil;
-       const EXPECTED_KEYS = ['Beneficiary', 'Amount', 'Currency'];
+       const EXPECTED_KEYS = [
+        'Beneficiary',
+        'Amount',
+        'Currency'];
+       const SUPPORTED_CURRENCIES = [
+        'WND', 
+        'UCOCO', 
+        'COCOUSD'];
        let validKeys = false;
        let results = [];
        let group = [];
@@ -74,7 +81,7 @@
          if (!haveExactKeys) {
           reject(`Invalid .csv file. The columns in the .csv file must be: ${EXPECTED_KEYS.join(', ')}`);
           abortTriggered = true; //Active flag
-          parser.abort();
+          parser.abort(); //Stop parsing
           return;
          }
          validKeys = true;
@@ -83,15 +90,15 @@
          //Verify missing data in rows
          if (!data.Beneficiary || !data.Amount || !data.Currency) {
             reject(`Row has missing data at row: ${rowCount + 2}`);
-            abortTriggered = true; //Active flag
-            parser.abort();//Stop parsing
+            abortTriggered = true; 
+            parser.abort();
             return;
          }
    
          //Verify valid beneficiary address
          if (!validateAccount(data.Beneficiary)) {
             reject(`Invalid beneficiary address: "${data.Beneficiary}" at row ${rowCount + 2}`);
-            abortTriggered = true; //Active flag
+            abortTriggered = true; 
             parser.abort();
             return;
          }
@@ -99,7 +106,7 @@
          //Verify beneficiary address is not the same as sender address
          if (data.Beneficiary === account){
             reject(`Beneficiary address is the same as the sender address: "${data.Beneficiary}" at row ${rowCount + 2}`);
-            abortTriggered = true; //Active flag
+            abortTriggered = true; 
             parser.abort();
             return;
          }
@@ -113,9 +120,9 @@
          }
    
          //Verify correct data in currency
-         if (data.Currency !== "WND" && data.Currency !== "UCOCO" && data.Currency !== "COCOUSD") {
+         if (!SUPPORTED_CURRENCIES.includes(data.Currency)) {
             reject(`Unknown currency: "${data.Currency}" at row ${rowCount + 2}`);
-            abortTriggered = true; //Active flag
+            abortTriggered = true; 
             parser.abort();
             return;
          }
@@ -131,7 +138,7 @@
          //Verify max rows
          if (rowCount === MAX_ROWS) {
             reject(`The .csv file has more than ${MAX_ROWS} payment rows. Please reduce the number of payment rows in your .csv file`);
-            abortTriggered = true; //Active flag
+            abortTriggered = true; 
             parser.abort();
             return;
          }
