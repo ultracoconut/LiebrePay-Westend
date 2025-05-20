@@ -1,7 +1,7 @@
 /*This file leverages PapaParse for parsing CSV files containing payment instructions.
    See the full license in the LICENSE file at the root of this project and also at the end of this file.*/
 
-   import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS } from '../constants.js'
+   import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS, SUPPORTED_CURRENCIES, EXPECTED_KEYS } from '../constants.js'
    import { balances } from '../subscribe_balances.js';
    import { apiAH, initializeApi } from '../init_apis.js';
    import { injector } from '../connect_wallet.js';
@@ -34,14 +34,6 @@
 
        //Const & Variables
        const { BN_ZERO } = polkadotUtil;
-       const EXPECTED_KEYS = [
-        'Beneficiary',
-        'Amount',
-        'Currency'];
-       const SUPPORTED_CURRENCIES = [
-        'WND', 
-        'UCOCO', 
-        'COCOUSD'];
        let validKeys = false;
        let results = [];
        let group = [];
