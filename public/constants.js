@@ -1,9 +1,23 @@
+export const SUPPORTED_CURRENCIES = [
+    'WND', 
+    'UCOCO', 
+    'COCOUSD'
+  ];
+
 export const ASSETS_ID = {
     UCOCO: 333,
     COCOUSD: 400,
   };
 
-export const MAX_ROWS = 100;
+//Header keys in the multi-payment .csv file
+export const EXPECTED_KEYS = [
+    'Beneficiary',
+    'Amount',
+    'Currency'
+    ];
+
+
+export const MAX_ROWS = 100; //Limit of payment rows supported per CSV file upload
 export const URL_PROVIDER = 'wss://westend-asset-hub-rpc.polkadot.io';
 export let MIN_BAL_FREE = null;
 export let MIN_PAY_AMOUNT = null;
@@ -29,8 +43,8 @@ export function initializeConstants() {
     COCOUSD: DEC_PREC.muln(2).divn(10), //0.2
   };
 
-//Minimum amount to pay in LiebrePay (bn)
- MIN_PAY_AMOUNT = {
+  //Minimum amount to pay in LiebrePay (bn)
+  MIN_PAY_AMOUNT = {
     WND: DEC_PREC.divn(10), //0.1
     UCOCO: DEC_PREC.divn(10), //0.1
     COCOUSD: DEC_PREC.divn(10), //0.1
