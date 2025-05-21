@@ -83,7 +83,7 @@ export async function singlePaymentWND(account, destination, value) {
               setTimeout(() => {
                 overlay.style.display = 'none';
                 statusBox.style.display = 'none';
-                reject("failed");
+                reject("The payment failed during blockchain processing. Please try again or contact support.");
                 return;  
               }, 2000);  
 
