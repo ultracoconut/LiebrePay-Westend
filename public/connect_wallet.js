@@ -132,6 +132,7 @@ async function selectAccount(index, accounts) {
 
     account = accounts[index];
     injector = await getInjector(account.address);
+    console.log(`Got injector for account ${account.address}`);
 
     await subscribeBalanceChanges();
     
