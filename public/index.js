@@ -56,6 +56,7 @@ import { updateConnectionUI } from './update_ui/update_connection_UI.js';
    const menuItems = document.querySelectorAll('.menu-item');
    menuItems.forEach(item => {
      item.addEventListener('click', () => {
+       if (item.classList.contains('selected')) return;
        menuItems.forEach(i => i.classList.remove('selected'));
        item.classList.add('selected');
        updatePage(item.id);
