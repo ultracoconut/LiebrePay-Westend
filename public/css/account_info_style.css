@@ -8,15 +8,16 @@
     .rectangle {
       width: 600px;
       height: 100px;
-      background-color: rgb(87, 87, 87);
+      background: #74ACDF;
       display: flex;
       flex-direction: column;
       justify-content: center; 
       align-items: center; 
       gap: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid gold;
       border-radius: 5px;
       text-align: center;
+      color: black;
     }
     .squares {
       display: flex;
@@ -26,14 +27,15 @@
     .square {
       width: 140px;
       height: 140px;
-      background-color: rgb(87, 87, 87);
+      background: #74ACDF;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border: 1px solid #ccc;
+      border: 1px solid gold;
       border-radius: 5px;
       text-align: center;
+      color: black;
     }
     .label {
       font-size: 16px;
