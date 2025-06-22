@@ -43,6 +43,7 @@ export async function connectWallet() {
 
     if (!extensions) {
       alert('No extension wallet installed, or the authorization was not accepted');
+      updateConnectionUI('disconnected');
       return;
     }
 
