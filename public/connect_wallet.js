@@ -13,19 +13,21 @@ import { updateConnectionUI } from './update_ui/update_connection_UI.js';
 export let account = null;
 export let injector = null;
 
+function hideOverlayAndLists() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('extension-list').style.display = 'none';
+  document.getElementById('account-list').style.display = 'none';
+}
+
 // CONNECT WALLET FUNCTION
 export async function connectWallet() {
-
   try { 
-
-    //There is an account connected
-    if (account) { 
+    if (account) {
       updateConnectionUI('disconnecting');
       unsubscribeBalanceChanges();
       account = null;
       injector = null;
-      
-      //Update UI
+
       updateConnectionUI('disconnected');
       updateBalanceDisplay();
       paymentHistoryController();
@@ -35,10 +37,7 @@ export async function connectWallet() {
       return;
     }
 
-    //There is no account connected
     updateConnectionUI('connecting');
-
-    //Call for extensions 
     const extensions = await getAvailableExtensions();
 
     if (!extensions || extensions.length === 0) {
@@ -51,115 +50,102 @@ export async function connectWallet() {
   } catch (error) {
     console.error('Error connecting/disconnecting wallet:', error);
     alert(`An error occurred: ${error.message || error}`);
+    updateConnectionUI('disconnected');
+    hideOverlayAndLists();
   }
 }
 
-//DISPLAY EXTENSION LIST
+// DISPLAY EXTENSION LIST
 function displayExtensionList(extensions) {
+  try {
+    const list = document.getElementById('extension-list');
+    list.innerHTML = '';
 
- try{
-  const list = document.getElementById('extension-list');
-  list.innerHTML = '';
+    extensions.forEach((ext, index) => {
+      const li = document.createElement('li');
+      li.textContent = ext.name;
+      li.addEventListener('click', () => selectExtension(index, extensions));
+      list.appendChild(li);
+    });
 
-  extensions.forEach((ext, index) => {
-    const li = document.createElement('li');
-    li.textContent = ext.name;
-    li.addEventListener('click', () => selectExtension(index, extensions));
-    list.appendChild(li);
-  });
-
-  list.style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
-
-  }catch(error){
+    list.style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  } catch (error) {
     console.error('Error displaying extension list:', error);
     alert(`An error occurred: ${error.message || error}`);
     updateConnectionUI('disconnected');
-    document.getElementById('extension-list').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
-    }
+    hideOverlayAndLists();
+  }
 }
 
-//SELECT EXTENSION
+// SELECT EXTENSION
 async function selectExtension(index, extensions) {
+  try {
+    const extension = extensions[index];
+    console.log(`Selected ${extension.name}`);
 
- try{ 
-  const extension = extensions[index];
-  console.log(`Selected ${extension.name}`);
+    const accounts = await getAvailableAccounts(extension.name);
 
-  const accounts = await getAvailableAccounts(extension.name);
+    if (!accounts || accounts.length === 0) {
+      alert('No accounts available in this extension wallet');
+      updateConnectionUI('disconnected');
+      hideOverlayAndLists();
+      return;
+    }
 
-  if (!accounts || accounts.length === 0) {
-  alert('No accounts available in this extension wallet');
-  updateConnectionUI('disconnected');
-  document.getElementById('extension-list').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
-  return;
-  }
-
-  document.getElementById('extension-list').style.display = 'none';
-  displayAccountList(accounts);
-
-  }catch(error){
+    document.getElementById('extension-list').style.display = 'none';
+    displayAccountList(accounts);
+  } catch (error) {
     console.error('Error selecting extension:', error);
     alert(`An error occurred: ${error.message || error}`);
     updateConnectionUI('disconnected');
-    document.getElementById('extension-list').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
-    }
-}
-
-//DISPLAY ACCOUNT LIST
-function displayAccountList(accounts) {
-
- try{
-  const accountList = document.getElementById('account-list');
-  accountList.innerHTML = '';
-
-  accounts.forEach((acc, index) => {
-    const li = document.createElement('li');
-    li.textContent = formatAccountDisplay(acc);
-    li.addEventListener('click', () => selectAccount(index, accounts));
-    accountList.appendChild(li);
-  });
-
-  accountList.style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
-
-  }catch(error){
-    console.error('Error displaying account list:', error);
-    alert(`An error occurred: ${error.message || error}`);
-    updateConnectionUI('disconnected');
-    document.getElementById('account-list').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
+    hideOverlayAndLists();
   }
 }
 
-//SELECT ACCOUNT
-async function selectAccount(index, accounts) {
-  
+// DISPLAY ACCOUNT LIST
+function displayAccountList(accounts) {
   try {
-    document.getElementById('account-list').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
+    const accountList = document.getElementById('account-list');
+    accountList.innerHTML = '';
+
+    accounts.forEach((acc, index) => {
+      const li = document.createElement('li');
+      li.textContent = formatAccountDisplay(acc);
+      li.addEventListener('click', () => selectAccount(index, accounts));
+      accountList.appendChild(li);
+    });
+
+    accountList.style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  } catch (error) {
+    console.error('Error displaying account list:', error);
+    alert(`An error occurred: ${error.message || error}`);
+    updateConnectionUI('disconnected');
+    hideOverlayAndLists();
+  }
+}
+
+// SELECT ACCOUNT
+async function selectAccount(index, accounts) {
+  try {
+    hideOverlayAndLists();
 
     account = accounts[index];
     injector = await getInjector(account.address);
     console.log(`Got injector for account ${account.address}`);
 
     await subscribeBalanceChanges();
-    
-    //Update UI
+
     updateConnectionUI('connected');
     paymentHistoryController();
     validateFields();
     updateMultiPayment();
     updateAccountInfo();
-
   } catch (error) {
     console.error('Error selecting account:', error);
     alert(`An error occurred while selecting the account: ${error.message || error}`);
     updateConnectionUI('disconnected');
-    document.getElementById('account-list').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
+    hideOverlayAndLists();
   }
 }
