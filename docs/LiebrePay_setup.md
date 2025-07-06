@@ -58,7 +58,7 @@ https://pro.subscan.io/pricing
     } 
     ```
      
-## 11.  Install Polkadot.js browser extension:
+## 11.  Install a supported browser-based wallet:
 Liebre Pay supports the following Polkadot-compatible browser wallets:
 
 - [Polkadot.js](https://polkadot.js.org/extension/)  
