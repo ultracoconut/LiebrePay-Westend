@@ -27,10 +27,18 @@ https://pro.subscan.io/pricing
     ```
 
 ## 3.  Install Polkadot.js browser extension:
-- Download and install Polkadot.js Wallet:  
- https://polkadot.js.org/extension/
+Liebre Pay supports the following Polkadot-compatible browser wallets:
 
-- Open the extension and create a new account. 
+- [Polkadot.js](https://polkadot.js.org/extension/)  
+- [Polkagate](https://polkagate.xyz/)
+- [Talisman](https://talisman.xyz/)
+- [SubWallet](https://www.subwallet.app/)
+- [Enkrypt](https://www.enkrypt.com/)
+- [Fearless wallet](https://fearlesswallet.io/)
+- [Math wallet](https://mathwallet.org/)
+- [Nightly](https://nightly.app/)
+
+Once installed, open the wallet and create or import an account.
 
 ## 4. Obtain the native currency of Westend and assets:
 - Get some WND (westies) from:  
