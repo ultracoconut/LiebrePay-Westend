@@ -18,9 +18,11 @@ export const EXPECTED_KEYS = [
 
 
 export const MAX_ROWS = 100; //Limit of payment rows supported per CSV file upload
+export const HISTORY_ROWS = 20; //Number of rows in the payment history list
 export const URL_PROVIDER = 'wss://westend-asset-hub-rpc.polkadot.io';
 export let MIN_BAL_FREE = null;
 export let MIN_PAY_AMOUNT = null;
+
 
 //Initializes constants requiring BN from polkadotUtil
 export function initializeConstants() {
