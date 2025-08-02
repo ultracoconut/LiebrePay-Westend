@@ -11,7 +11,7 @@
    import { validateAccount } from '../utils/account_verification.js';
 
    
-   export async function multiPayment(account, file) {
+   export async function multiPayment(address, file) {
      return new Promise(async (resolve, reject) => {
        try {
         //Verify that the API have been created
@@ -96,7 +96,7 @@
          }
    
          //Verify beneficiary address is not the same as sender address
-         if (data.Beneficiary === account){
+         if (data.Beneficiary === address){
             reject(`Beneficiary address is the same as the sender address: "${data.Beneficiary}" at row ${rowCount + 2}`);
             abortTriggered = true; 
             parser.abort();
@@ -180,29 +180,14 @@
          //Construct batch 
          console.log('Constructing batch...')
    
-          let beneficiary;
-          let amountCSV;
-          let currency;
-          
-          for (let i = 0; i < results.length; i++) {
-            beneficiary = results[i].Beneficiary;
-            amountCSV = results[i].Amount;
-            currency = results[i].Currency;
-   
-            switch (currency) {
-             case "WND":
-                 tx = apiAH.tx.balances.transferKeepAlive(beneficiary, formatConversionIn(amountCSV, 12));
-                 group.push(tx);
-                 break;
-             case "UCOCO":
-                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['UCOCO'], beneficiary, formatConversionIn(amountCSV, 12));
-                 group.push(tx);
-                 break;
-             case "COCOUSD":
-                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID['COCOUSD'], beneficiary, formatConversionIn(amountCSV, 12));
-                 group.push(tx);
-                 break;
+          for (const { Beneficiary, Amount, Currency } of results) {
+           
+            if(Currency === 'WND') {
+                 tx = apiAH.tx.balances.transferKeepAlive(Beneficiary, formatConversionIn(Amount, 12));
+            } else{
+                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID[Currency], Beneficiary, formatConversionIn(Amount, 12));
             }
+            group.push(tx);
          }        
    
          //Batch constructed
@@ -212,7 +197,7 @@
          console.log(`Transaction batch: ${group}`);
    
          //Retrieve transaction batch fee info
-         let {partialFee:feeBatch} = await apiAH.tx.utility.batch(group).paymentInfo(account);
+         let {partialFee:feeBatch} = await apiAH.tx.utility.batch(group).paymentInfo(address);
    
          //Verify sufficient WND balance for fees
          const totalRequiredWND = totalAmounts['WND'].add(MIN_BAL_FREE['WND']).add(feeBatch.muln(2));
@@ -245,7 +230,7 @@
         let extrinsic = apiAH.tx.utility.batch(group);
    
         //Sign & send the extrinsic
-        const extrinsicUnsub = await extrinsic.signAndSend(account, { signer: injector.signer }, ({events = [], status, txHash})=>{
+        const extrinsicUnsub = await extrinsic.signAndSend(address, { signer: injector.signer }, ({events = [], status, txHash})=>{
          
         //Show the status box and overlay when the transaction starts
         overlay.style.display = 'flex';
