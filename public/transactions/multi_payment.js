@@ -1,7 +1,7 @@
 /*This file leverages PapaParse for parsing CSV files containing payment instructions.
    See the full license in the LICENSE file at the root of this project and also at the end of this file.*/
 
-   import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS, SUPPORTED_CURRENCIES, EXPECTED_KEYS } from '../constants.js'
+   import { MIN_BAL_FREE, ASSETS_ID, MAX_ROWS, SUPPORTED_CURRENCIES, EXPECTED_KEYS, DECIMAL } from '../constants.js'
    import { balances } from '../subscribe_balances.js';
    import { apiAH, initializeApi } from '../init_apis.js';
    import { injector } from '../connect_wallet.js';
@@ -183,9 +183,9 @@
           for (const { Beneficiary, Amount, Currency } of results) {
            
             if(Currency === 'WND') {
-                 tx = apiAH.tx.balances.transferKeepAlive(Beneficiary, formatConversionIn(Amount, 12));
+                 tx = apiAH.tx.balances.transferKeepAlive(Beneficiary, formatConversionIn(Amount, DECIMAL[Currency]));
             } else{
-                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID[Currency], Beneficiary, formatConversionIn(Amount, 12));
+                 tx = apiAH.tx.assets.transferKeepAlive(ASSETS_ID[Currency], Beneficiary, formatConversionIn(Amount, DECIMAL[Currency]));
             }
             group.push(tx);
          }        
