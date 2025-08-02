@@ -9,6 +9,13 @@ export const ASSETS_ID = {
     COCOUSD: 400,
   };
 
+//Decimal precision number
+ export const DECIMAL = {
+   WND: 12,
+   UCOCO: 12,
+   COCOUSD: 12
+ };
+
 //Header keys in the multi-payment .csv file
 export const EXPECTED_KEYS = [
     'Beneficiary',
