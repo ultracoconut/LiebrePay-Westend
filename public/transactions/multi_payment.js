@@ -138,7 +138,7 @@
          //Push row in array results
          results.push(data);
          rowCount++;
-         let formattedAmount = formatConversionIn(data.Amount, 12);
+         let formattedAmount = formatConversionIn(data.Amount, DECIMAL[data.Currency]);
          totalAmounts[data.Currency] = totalAmounts[data.Currency].add(formattedAmount);
          WalletsSet.add(data.Beneficiary); //Add wallet to set
         
@@ -166,7 +166,6 @@
          }
          
          //Verify each asset balance for transaction batch
-         const { BN_ZERO } = polkadotUtil;
          for (let curr in totalAmounts) {
 
            const totalRequired = totalAmounts[curr].add(MIN_BAL_FREE[curr]);
@@ -208,16 +207,18 @@
          }
    
          //Show summary and confirm option
-         let summaryMessage = `Multi Payment Summary:
-   
-         - Total number of payments: ${rowCount}
-         - Total Multi payment amount: 
-           ${formatConversionOut(totalAmounts['WND'], 12)} WND
-           ${formatConversionOut(totalAmounts['UCOCO'], 12)} UCOCO 
-           ${formatConversionOut(totalAmounts['COCOUSD'], 12)} COCOUSD
-         - Estimated Multi Payment fee: ${formatConversionOut(feeBatch, 12)} WND
-         
-         Do you want to continue?`;
+         let summaryMessage = `Multi Payment Summary:\n\n`;
+         summaryMessage += `- Total number of payments: ${rowCount}\n`;
+         summaryMessage += `- Total Multi payment amount:\n`;
+
+         for (const currency of SUPPORTED_CURRENCIES) {
+           if (totalAmounts[currency].gt(BN_ZERO)) {
+            summaryMessage += `  - ${formatConversionOut(totalAmounts[currency], DECIMAL[currency])} ${currency}\n`;
+           }
+         }
+
+         summaryMessage += `- Estimated Multi Payment fee: ${formatConversionOut(feeBatch, DECIMAL['WND'])} WND\n\n`;
+         summaryMessage += `Do you want to continue?`;
          
          let userConfirmed = confirm(summaryMessage);
          
