@@ -16,7 +16,15 @@ export function updateAccountInfo() {
     const balanceResWND = document.getElementById('balance-reserved-WND-info');
     const balanceUCOCO = document.getElementById('balance-UCOCO-info');
     const balanceCOCOUSD = document.getElementById('balance-COCOUSD-info');
+    const buttonLiquidate = document.getElementById('button-liquidate');
+    
+    
+    //Enable/disable button liquidate
+    if(!account){
+      buttonLiquidate.disabled = true;
+    } else buttonLiquidate.disabled = false;
 
+    
     //Update content
     name.textContent = account?.meta?.name || 'Not selected account';
     address.textContent = account?.address || 'Not selected account';
