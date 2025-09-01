@@ -4,6 +4,7 @@ import { updateBalanceDisplay } from '../update_ui/update_balance_display.js';
 import { account } from '../connect_wallet.js';
 import { validateFields } from '../validate_fields.js';
 import { formatConversionIn } from '../utils/format_conversion_input.js';
+import { DECIMAL } from '../constants.js';
  
 
 export function initSinglePayment() {
@@ -26,8 +27,8 @@ amountInput.addEventListener('input', validateFields);
 
 //Event listener send button
 sendButton.addEventListener('click', async() => {
-  const amount = formatConversionIn(amountInput.value, 12);
   const currency = currencySelect.value;
+  const amount = formatConversionIn(amountInput.value, DECIMAL[currency]);
   const beneficiary = beneficiaryInput.value.trim();
 
   //Disable send button until result
@@ -36,22 +37,12 @@ sendButton.addEventListener('click', async() => {
   let result;
 
   try{
-  switch (currency) {
-      case 'WND':
-          //Single payment WND
-          result = await singlePaymentWND(account.address, beneficiary, amount);
-          break;
-
-      case 'UCOCO':
-          //Single payment UCOCO
-          result = await singlePaymentAssets('UCOCO', account.address, beneficiary, amount);
-          break;
-
-      case 'COCOUSD':
-          //Single payment COCOUSD
-          result = await singlePaymentAssets('COCOUSD', account.address, beneficiary, amount);
-          break;
-      }
+  
+    if (currency === 'WND') {
+        result = await singlePaymentWND(account.address, beneficiary, amount);
+     } else {
+        result = await singlePaymentAssets(currency, account.address, beneficiary, amount);
+     }
 
     setTimeout(() => {
       alert(result);
