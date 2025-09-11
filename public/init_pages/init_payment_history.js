@@ -9,7 +9,10 @@ export function initPaymentHistory(){
    //DOM elements
    const prevBtn = document.getElementById('prev-page-btn');
    const nextBtn = document.getElementById('next-page-btn');
-   
+   const closeBtn = document.getElementById('close-detail-box');
+   const overlay = document.getElementById('overlay');
+   const paymentDetailBox = document.getElementById('payment-detail-box');
+
    //Setup buttons
    prevBtn.addEventListener('click', async () => {
     try {
@@ -39,6 +42,12 @@ export function initPaymentHistory(){
        }
   });
 
-    //Call paymentHistory Controller at start
-     paymentHistoryController();
+  // Close button
+  closeBtn.addEventListener('click', () => {
+    paymentDetailBox.style.display = 'none';
+    overlay.style.display = 'none';
+  });
+
+  //Call paymentHistory Controller at start
+  paymentHistoryController();
 }
