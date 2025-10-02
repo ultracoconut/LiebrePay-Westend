@@ -4,10 +4,16 @@ export const SUPPORTED_CURRENCIES = [
     'COCOUSD'
   ];
 
+//Native assets in Asset Hub (with numeric AssetId)
 export const ASSETS_ID = {
     UCOCO: 333,
     COCOUSD: 400,
   };
+  
+//Foreign assets in Asset Hub (with MultiLocation XCM)
+export const MULTILOCATION = {
+
+};
 
 //Decimal precision number
  export const DECIMAL = {
