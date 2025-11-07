@@ -7,6 +7,7 @@ import { updateAccountInfo } from './update_ui/update_account_info.js';
 export let balances = { 
   WND: null,
   WNDRes: null,
+  WNDLock: null,
   UCOCO: null,
   COCOUSD: null
 };
@@ -20,7 +21,7 @@ export function subscribeBalanceChanges() {
     
     try {
       
-      //Verify that the API have been created
+      //Verify that the API has been created
       if (!apiAH) {
         await initializeApi();
       }
@@ -30,22 +31,28 @@ export function subscribeBalanceChanges() {
 
       console.log('Subscribing to balance changes...');
       const { BN_ZERO } = polkadotUtil;
-      
+     
       balances = { 
         WND: BN_ZERO,
         WNDRes: BN_ZERO,
+        WNDLock: BN_ZERO,
         UCOCO: BN_ZERO,
         COCOUSD: BN_ZERO
       };
 
-      unsubWND = await apiAH.query.system.account(account.address, ({ data: balance }) => {
-        if (!balances['WND'].eq(balance.free)) {
-          balances['WND'] = balance.free;
+      //WND balance (using derive)
+      unsubWND = await apiAH.derive.balances.all(account.address, ( balance ) => { 
+        if (!balances['WND'].eq(balance.availableBalance)) {
+          balances['WND'] = balance.availableBalance;
           updateBalanceDisplay();
           updateAccountInfo();
         }
-        if (!balances['WNDRes'].eq(balance.reserved)) {
-          balances['WNDRes'] = balance.reserved;
+        if (!balances['WNDRes'].eq(balance.reservedBalance)) {
+          balances['WNDRes'] = balance.reservedBalance;
+          updateAccountInfo();
+        }
+        if (!balances['WNDLock'].eq(balance.lockedBalance)) {
+          balances['WNDLock'] = balance.lockedBalance;
           updateAccountInfo();
         }
       });
@@ -93,6 +100,7 @@ export function subscribeBalanceChanges() {
         balances = {
           WND: BN_ZERO,
           WNDRes: BN_ZERO,
+          WNDLock: BN_ZERO,
           UCOCO: BN_ZERO,
           COCOUSD: BN_ZERO
     };
