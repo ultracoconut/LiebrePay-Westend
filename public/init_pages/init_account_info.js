@@ -1,5 +1,5 @@
 import { updateAccountInfo } from '../update_ui/update_account_info.js';
-import { account } from '../connect_wallet.js';
+import { walletState } from '../wallet/wallet_state.js';
 import { closeAndTransfer } from '../transactions/close_and_transfer.js';
 import { validateAccount } from '../utils/account_verification.js';
 
@@ -52,7 +52,7 @@ export  function initAccountInfo(){
        closeLiquidateBox();
          
     	 //Call function
-       const result = await closeAndTransfer(account.address, recipientInput.value.trim());
+       const result = await closeAndTransfer(walletState.account.address, walletState.injector, recipientInput.value.trim());
          setTimeout(() => {
            alert(result);
           }, 1000);
