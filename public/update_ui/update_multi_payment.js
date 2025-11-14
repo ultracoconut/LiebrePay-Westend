@@ -1,22 +1,22 @@
-import { account } from '../connect_wallet.js';
+import { walletState } from '../wallet/wallet_state.js';
 
 export function updateMultiPayment() {
   try {
-    //DOM elements
+    // DOM elements
     const selBut = document.getElementById('select-csv-button');
 
-    if (!selBut) {// Verify multi payment page
-      return; 
+    if (!selBut) {
+      return; // Verify multi payment page
     }
 
-    //Disable the button if no account is connected
-    if (!account) {
+    // Disable the button if no account is connected
+    if (!walletState.isConnected()) {
       selBut.disabled = true;
       selBut.textContent = 'Please connect a Wallet';
       return;
     }
 
-    //Enable the button if account connected
+    // Enable the button if account connected
     selBut.disabled = false;
     selBut.textContent = '📤 Upload .csv File';
 
