@@ -1,17 +1,15 @@
-import { paymentHistoryController } from './payment_history/payment_history_controller.js';
-import { subscribeBalanceChanges, unsubscribeBalanceChanges } from './subscribe_balances.js';
-import { validateFields } from './validate_fields.js';
-import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
-import { updateMultiPayment } from './update_ui/update_multi_payment.js';
-import { updateAccountInfo } from './update_ui/update_account_info.js';
-import { getAvailableExtensions } from './utils/get_available_extensions.js';
-import { getAvailableAccounts } from './utils/get_available_accounts.js';
-import { getInjector } from './utils/get_injector.js';
-import { formatAccountDisplay } from './utils/format_account_display.js';
-import { updateConnectionUI } from './update_ui/update_connection_UI.js';
-
-export let account = null;
-export let injector = null;
+import { paymentHistoryController } from '../payment_history/payment_history_controller.js';
+import { subscribeBalanceChanges, unsubscribeBalanceChanges } from '../subscribe_balances.js';
+import { validateFields } from '../validate_fields.js';
+import { updateBalanceDisplay } from '../update_ui/update_balance_display.js';
+import { updateMultiPayment } from '../update_ui/update_multi_payment.js';
+import { updateAccountInfo } from '../update_ui/update_account_info.js';
+import { getAvailableExtensions } from '../utils/get_available_extensions.js';
+import { getAvailableAccounts } from '../utils/get_available_accounts.js';
+import { getInjector } from '../utils/get_injector.js';
+import { formatAccountDisplay } from '../utils/format_account_display.js';
+import { updateConnectionUI } from '../update_ui/update_connection_UI.js';
+import { walletState } from './wallet_state.js';
 
 function hideOverlayAndLists() {
   document.getElementById('overlay').style.display = 'none';
@@ -19,15 +17,15 @@ function hideOverlayAndLists() {
   document.getElementById('account-list').style.display = 'none';
 }
 
-// CONNECT WALLET FUNCTION
+//CONNECT WALLET FUNCTION
 export async function connectWallet() {
   try { 
-    if (account) {
+    if (walletState.isConnected()) {
       updateConnectionUI('disconnecting');
       unsubscribeBalanceChanges();
-      account = null;
-      injector = null;
+      walletState.reset();
 
+      //Update UI
       updateConnectionUI('disconnected');
       updateBalanceDisplay();
       paymentHistoryController();
@@ -55,7 +53,7 @@ export async function connectWallet() {
   }
 }
 
-// DISPLAY EXTENSION LIST
+//DISPLAY EXTENSION LIST
 function displayExtensionList(extensions) {
   try {
     const list = document.getElementById('extension-list');
@@ -78,7 +76,7 @@ function displayExtensionList(extensions) {
   }
 }
 
-// SELECT EXTENSION
+//SELECT EXTENSION
 async function selectExtension(index, extensions) {
   try {
     const extension = extensions[index];
@@ -103,7 +101,7 @@ async function selectExtension(index, extensions) {
   }
 }
 
-// DISPLAY ACCOUNT LIST
+//DISPLAY ACCOUNT LIST
 function displayAccountList(accounts) {
   try {
     const accountList = document.getElementById('account-list');
@@ -126,22 +124,26 @@ function displayAccountList(accounts) {
   }
 }
 
-// SELECT ACCOUNT
+//SELECT ACCOUNT
 async function selectAccount(index, accounts) {
   try {
     hideOverlayAndLists();
 
-    account = accounts[index];
-    injector = await getInjector(account.address);
+    const account = accounts[index];
+    const injector = await getInjector(account.address);
     console.log(`Got injector for account ${account.address}`);
 
+    walletState.set({account, injector, type: 'extension'});
     await subscribeBalanceChanges();
 
+    //Update UI
     updateConnectionUI('connected');
+    updateBalanceDisplay();
     paymentHistoryController();
     validateFields();
     updateMultiPayment();
     updateAccountInfo();
+
   } catch (error) {
     console.error('Error selecting account:', error);
     alert(`An error occurred while selecting the account: ${error.message || error}`);
