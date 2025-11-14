@@ -1,9 +1,10 @@
 import { initializeApi } from './init_apis.js';
-import { connectWallet, account } from './connect_wallet.js';
+import { connectWallet } from './wallet/connect_wallet.js';
 import { pageHandlers } from './page_handlers.js';
 import { initializeConstants } from './constants.js';
 import { checkDependencies } from './check_dependencies.js';
 import { updateConnectionUI } from './update_ui/update_connection_UI.js';
+import { walletState } from './wallet/wallet_state.js';
 
   
   //LOAD EXTERNAL HTML TEMPLATE FUNCTION
@@ -47,7 +48,7 @@ import { updateConnectionUI } from './update_ui/update_connection_UI.js';
   }
   
   //Visibility and pointer events based on wallet connection state
-  updateConnectionUI(account ? 'connected' : 'disconnected');
+  updateConnectionUI(walletState.isConnected() ? 'connected' : 'disconnected');
 
     }
 
