@@ -1,14 +1,14 @@
 import { balances } from '../subscribe_balances.js';
-import { account } from '../connect_wallet.js';
 import { formatConversionOut } from '../utils/format_conversion_output.js';
+import { walletState } from '../wallet/wallet_state.js';
 
-//UPDATE BALANCE DISPLAY FUNCTION
+// UPDATE BALANCE DISPLAY FUNCTION
 export function updateBalanceDisplay() {
     const balanceDisplay = document.getElementById('balance-display');
     if (!balanceDisplay) return;
 
     try {
-        if (!account) {
+        if (!walletState.isConnected()) {
             balanceDisplay.textContent = 'Balance free: Not available';
             return;
         }
