@@ -1,6 +1,6 @@
 import { ASSETS_ID } from './constants.js'
 import { apiAH, initializeApi } from './init_apis.js';
-import { account } from './connect_wallet.js';
+import { walletState } from './wallet/wallet_state.js';
 import { updateBalanceDisplay } from './update_ui/update_balance_display.js';
 import { updateAccountInfo } from './update_ui/update_account_info.js';
 
@@ -40,8 +40,8 @@ export function subscribeBalanceChanges() {
         COCOUSD: BN_ZERO
       };
 
-      //WND balance (using derive)
-      unsubWND = await apiAH.derive.balances.all(account.address, ( balance ) => { 
+      // WND balance (using derive)
+      unsubWND = await apiAH.derive.balances.all(walletState.account.address, ( balance ) => { 
         if (!balances['WND'].eq(balance.availableBalance)) {
           balances['WND'] = balance.availableBalance;
           updateBalanceDisplay();
@@ -57,7 +57,7 @@ export function subscribeBalanceChanges() {
         }
       });
 
-      unsubUCOCO = await apiAH.query.assets.account(ASSETS_ID['UCOCO'], account.address, (result) => {
+      unsubUCOCO = await apiAH.query.assets.account(ASSETS_ID['UCOCO'], walletState.account.address, (result) => {
         const newBalance = result.isSome ? result.unwrap().balance : BN_ZERO;
         if (!balances['UCOCO'].eq(newBalance)) {
           balances['UCOCO'] = newBalance;
@@ -66,7 +66,7 @@ export function subscribeBalanceChanges() {
         }
       });
 
-      unsubCOCOUSD = await apiAH.query.assets.account(ASSETS_ID['COCOUSD'], account.address, (result) => {
+      unsubCOCOUSD = await apiAH.query.assets.account(ASSETS_ID['COCOUSD'], walletState.account.address, (result) => {
         const newBalance = result.isSome ? result.unwrap().balance : BN_ZERO;
         if (!balances['COCOUSD'].eq(newBalance)) {
           balances['COCOUSD'] = newBalance;
