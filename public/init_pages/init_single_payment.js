@@ -44,7 +44,13 @@ sendButton.addEventListener('click', async() => {
         result = await singlePaymentAssets(currency, walletState.account.address, walletState.injector, beneficiary, amount);
      }
 
-    setTimeout(() => {
+    //Handle user cancellation in the payment flow
+    if (result === false) {
+      console.log('Payment cancelled by user');
+      return;
+    }
+    
+     setTimeout(() => {
       alert(result);
     }, 1000);
 

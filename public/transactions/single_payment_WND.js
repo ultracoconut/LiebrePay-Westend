@@ -38,7 +38,7 @@ export async function singlePaymentWND(account, injector, destination, value) {
         
           //User cancel transaction
           if (!userConfirmed) {
-              reject("Payment cancelled");
+              resolve(false);
               return;
               }
 

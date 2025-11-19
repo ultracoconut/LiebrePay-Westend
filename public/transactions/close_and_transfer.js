@@ -109,7 +109,7 @@ export async function closeAndTransfer (sourceAddress, injector, recipientAddres
          const userConfirmed = await customConfirm(summaryMessage);
          
          if (!userConfirmed) {
-             reject("Transfer cancelled");
+             resolve(false);
              return;
          }   
 
