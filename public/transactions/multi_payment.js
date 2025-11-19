@@ -8,6 +8,7 @@
    import { formatConversionOut } from '../utils/format_conversion_output.js';
    import { validateAmount } from '../utils/amount_verification.js';
    import { validateAccount } from '../utils/account_verification.js';
+   import { customConfirm } from '../utils/ui/custom_confirm.js';
 
    
    export async function multiPayment(address, injector, file) {
@@ -229,7 +230,7 @@
          summaryMessage += `- Estimated Multi Payment fee: ${formatConversionOut(feeBatch, DECIMAL['WND'])} WND\n\n`;
          summaryMessage += `Do you want to continue?`;
          
-         let userConfirmed = confirm(summaryMessage);
+         const userConfirmed = await customConfirm(summaryMessage);
          
          if (!userConfirmed) {
              reject("Multi payment cancelled");
