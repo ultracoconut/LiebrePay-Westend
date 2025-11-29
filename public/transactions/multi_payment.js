@@ -39,12 +39,10 @@
        let group = [];
        let rowCount = 0;
        let tx;
-       let totalAmounts = {
-          WND: BN_ZERO, 
-          UCOCO: BN_ZERO, 
-          COCOUSD: BN_ZERO 
-         };
-   
+       let totalAmounts = {};
+       for (const curr of SUPPORTED_CURRENCIES) {
+          totalAmounts[curr] = BN_ZERO;
+        }     
        let WalletsSet = new Set();
        let abortTriggered = false; //Flag to check if abort() was called
      
@@ -206,7 +204,7 @@
          console.log(`Transaction batch: ${group}`);
    
          //Retrieve transaction batch fee info
-         let {partialFee:feeBatch} = await apiAH.tx.utility.batch(group).paymentInfo(address);
+         const {partialFee:feeBatch} = await apiAH.tx.utility.batch(group).paymentInfo(address);
    
          //Verify sufficient WND balance for fees
          const totalRequiredWND = totalAmounts['WND'].add(MIN_BAL_FREE['WND']).add(feeBatch.muln(2));
