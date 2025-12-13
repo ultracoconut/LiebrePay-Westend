@@ -15,6 +15,13 @@ export const MULTILOCATION = {
 
 };
 
+//Currency sufficiency
+export const CURRENCY_SUFFICIENCY = {
+  WND: true,
+  UCOCO: true,
+  COCOUSD: true
+};
+
 //Decimal precision number
  export const DECIMAL = {
    WND: 12,
