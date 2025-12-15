@@ -1,7 +1,7 @@
 /*This file leverages PapaParse for parsing CSV files containing payment instructions.
    See the full license in the LICENSE file at the root of this project and also at the end of this file.*/
 
-   import { MIN_BAL_FREE, ASSETS_ID, MULTILOCATION, MAX_ROWS, SUPPORTED_CURRENCIES, EXPECTED_KEYS, DECIMAL } from '../constants.js'
+   import { MIN_BAL_FREE, ASSETS_ID, MULTILOCATION, MAX_ROWS, SUPPORTED_CURRENCIES, EXPECTED_KEYS, DECIMAL, CURRENCY_SUFFICIENCY } from '../constants.js'
    import { balances } from '../subscribe_balances.js';
    import { apiAH, initializeApi } from '../init_apis.js';
    import { formatConversionIn } from '../utils/format_conversion_input.js';
@@ -173,6 +173,25 @@
                  return;
              }
          }
+
+         //Check currency sufficiency in batch
+         const insufficientAssetsUsed = Object.keys(totalAmounts).filter(curr =>
+          totalAmounts[curr].gt(BN_ZERO) && !CURRENCY_SUFFICIENCY[curr]
+         );
+
+         if (insufficientAssetsUsed.length > 0) {
+          const sufficiencyConfirmed = await customConfirm(
+            `The batch payment contains insufficient assets (${insufficientAssetsUsed.join(', ')}).\n\n` +
+            `Beneficiary accounts must have a minimum of ` +
+            `${formatConversionOut(MIN_BAL_FREE['WND'], DECIMAL['WND'])} WND ` +
+            `to successfully receive these assets.\n` +
+            `Do you want to continue?`);
+
+          if (!sufficiencyConfirmed) {
+            resolve(false);
+            return;
+          }
+        }
    
          //Construct batch 
          console.log('Constructing batch...')
