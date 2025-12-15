@@ -1,5 +1,5 @@
 
-import { MIN_BAL_FREE, ASSETS_ID, MULTILOCATION, DECIMAL } from '../constants.js'
+import { MIN_BAL_FREE, ASSETS_ID, MULTILOCATION, DECIMAL, CURRENCY_SUFFICIENCY } from '../constants.js'
 import { balances } from '../subscribe_balances.js';
 import { apiAH, initializeApi } from '../init_apis.js';
 import { formatConversionOut } from '../utils/format_conversion_output.js';
@@ -28,6 +28,19 @@ export async function singlePaymentAssets (currency, account, injector, destinat
       const overlay = document.getElementById('overlay');
       const statusBox = document.getElementById('transaction-status');
       const statusMessage = document.getElementById('status-message');
+      
+      //Check currency sufficiency
+      if (!CURRENCY_SUFFICIENCY[currency]){ 
+        const sufficiencyConfirmed = await customConfirm(`The beneficiary account must have a minimum of ` +
+        `${formatConversionOut (MIN_BAL_FREE['WND'], DECIMAL['WND'])} WND balance ` +
+        `to successfully receive ${currency}.\n` +
+        `Do you want to continue?`); 
+        
+        if (!sufficiencyConfirmed){ 
+          resolve(false); 
+          return; 
+        } 
+      }
       
       //Build extrinsic
       let extrinsic;
