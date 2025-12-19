@@ -1,6 +1,6 @@
 import { apiAH, initializeApi } from '../init_apis.js';
 import { balances } from '../subscribe_balances.js';
-import { SUPPORTED_CURRENCIES, MIN_BAL_FREE, ASSETS_ID, MULTILOCATION, DECIMAL } from '../constants.js';
+import { SUPPORTED_CURRENCIES, MIN_BAL_FREE, ASSETS_ID, MULTILOCATION, DECIMAL, CURRENCY_SUFFICIENCY } from '../constants.js';
 import { formatConversionOut } from '../utils/format_conversion_output.js';
 import { customConfirm } from '../utils/ui/custom_confirm.js';
 
@@ -55,7 +55,6 @@ export async function closeAndTransfer (sourceAddress, injector, recipientAddres
       reject('WND is required to cover network transaction fees.');
       return;
     }
-
 
     //Construct 1st transaction batch for currencies with non-zero balances to obtain batch fee
     console.log('Constructing 1st batch...');
@@ -152,10 +151,10 @@ export async function closeAndTransfer (sourceAddress, injector, recipientAddres
         statusBox.style.display = 'flex';
    
         //Update the status in the status box
-        statusMessage.textContent = 'Transfering funds, please wait...';
-        statusMessage.appendChild(document.createElement('br'));
-        statusMessage.appendChild(document.createTextNode(`Current status in blockchain: ${status.type}`));
-        console.log(`Transaction current status is ${status.type}`);
+        statusMessage.textContent =
+            `Transferring funds, please wait...\n` +
+            `Current status in blockchain: ${status.type}`;
+            console.log(`Transaction current status is ${status.type}`);
    
        if (status.isFinalized){
           //Loop through Vec<EventRecord> to get ExtrinsicSuccess/Failed
@@ -178,7 +177,7 @@ export async function closeAndTransfer (sourceAddress, injector, recipientAddres
            setTimeout(() => {
              overlay.style.display = 'none';
              statusBox.style.display = 'none';
-             reject("The transfer failed during blockchain processing. Please try again or contact support."); 
+             reject(`The transfer failed during blockchain processing. Please try again or contact support.`); 
            }, 2000);  
            }
          });
